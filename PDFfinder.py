@@ -1,4 +1,3 @@
-
 '''
 do zrobienia pisane 30.04.2023:
 
@@ -25,7 +24,8 @@ do zrobienia pisane 30.04.2023:
 import sys
 
 try:
-    sys.path.append(r'C:/temp/PdfFinder/venv/Lib/site-packages')
+    sys.path.append(r'D:/Python/PycharmProjects/__Repo/PDFfinder/venv/Lib/site-packages')
+
 except:
     pass
 #from pathlib import Path
@@ -38,7 +38,7 @@ from math import floor
 
 import webbrowser
 
-from tkinter import *
+#from tkinter import *
 from tkinter import ttk, filedialog, messagebox
 from tkinter import Menu
 
@@ -58,10 +58,10 @@ class Gui:
         y_coordinate = (screen_height / 2) - (height_of_window / 2)  #
 
         self.root.geometry("%dx%d+%d+%d" % (width_of_window, height_of_window, x_coordinate, y_coordinate))
-        self.scaleW_value = IntVar(value=20)
+        self.scaleW_value = tkk.IntVar(value=20)
         self.scaleW_value.trace_add('write', self.refresh_frame_yelow)
 
-        self.entry_wyszukajVar = StringVar(self.root)
+        self.entry_wyszukajVar = tkk.StringVar(self.root)
 
 
 
@@ -323,21 +323,21 @@ class Gui:
 
 
     def _scrollbar(self):
-        self.main_frame = Frame(self.root)
-        self.main_frame.pack(fill=BOTH, expand=1)
+        self.main_frame = tkk.Frame(self.root)
+        self.main_frame.pack(fill=tkk.BOTH, expand=1)
 
-        self.main_canvas = Canvas(self.main_frame)
-        self.main_canvas.pack(side=LEFT, fill=BOTH, expand=1)
+        self.main_canvas = tkk.Canvas(self.main_frame)
+        self.main_canvas.pack(side=tkk.LEFT, fill=tkk.BOTH, expand=1)
 
-        self.main_scrollbar = ttk.Scrollbar(self.main_frame, orient=VERTICAL, command=self.main_canvas.yview)
-        self.main_scrollbar.pack(side=RIGHT, fill=Y)
+        self.main_scrollbar = ttk.Scrollbar(self.main_frame, orient=tkk.VERTICAL, command=self.main_canvas.yview)
+        self.main_scrollbar.pack(side=tkk.RIGHT, fill=tkk.Y)
 
         self.main_canvas.configure(yscrollcommand=self.main_scrollbar.set)
 
         self.main_canvas.bind('<Configure>',
                               lambda e: self.main_canvas.configure(scrollregion=self.main_canvas.bbox("all")))
 
-        self.top_frame = Frame(self.main_canvas)
+        self.top_frame = tkk.Frame(self.main_canvas)
 
         self.main_canvas.create_window((0, 0), window=self.top_frame, anchor="nw")
 
@@ -386,7 +386,7 @@ class Gui:
 
     def wyslij_opinie(self):
         bg_color = '#0088FF'
-        window2 = Toplevel(self.root, bg=bg_color)  # tworze nowe okno ktore jest dzieckiem root
+        window2 = tkk.Toplevel(self.root, bg=bg_color)  # tworze nowe okno ktore jest dzieckiem root
         window2.grab_set()
         window2.title('wyslij opinie')  # nazwa okna
 
@@ -404,7 +404,7 @@ class Gui:
         self.frame_header.style.configure('TLabel', background='#0088FF', font=('Arial', 10))
         self.frame_header.style.configure('Header.TLabel', font=('Arial', 14))
 
-        self.logo = PhotoImage(file='logoOpnie.png')
+        self.logo = tkk.PhotoImage(file='logoOpnie.png')
         ttk.Label(self.frame_header, image=self.logo).grid(row=0, column=0, rowspan=2)
         ttk.Label(self.frame_header, text='Zostaw swoja opinie.', style='Header.TLabel', background=bg_color).grid(
             row=0, column=1)
@@ -418,7 +418,7 @@ class Gui:
 
         self.entry_name = ttk.Entry(self.frame_content, width=24, font=('Arial', 10), background=bg_color)
         self.entry_email = ttk.Entry(self.frame_content, width=24, font=('Arial', 10), background=bg_color)
-        self.text_comments = Text(self.frame_content, width=50, height=10, font=('Arial', 10), background=bg_color)
+        self.text_comments = tkk.Text(self.frame_content, width=50, height=10, font=('Arial', 10), background=bg_color)
 
         self.entry_name.grid(row=1, column=0, padx=5)
         self.entry_email.grid(row=1, column=1, padx=5)
@@ -442,7 +442,7 @@ class Gui:
         self.text_comments.delete(1.0, 'end')
 
     def PDF_finder_info(self):
-        window = Toplevel(self.root)  # tworze nowe okno ktore jest dzieckiem root
+        window = tkk.Toplevel(self.root)  # tworze nowe okno ktore jest dzieckiem root
         window.title('PDF finder info')  # nazwa okna
 
         windowWidth = self.root.winfo_reqwidth()
@@ -639,7 +639,7 @@ class Gui:
         self.entry_wyszukaj.grid(row=4, column=0, padx=10, pady=0, columnspan=2, sticky='swe')
         self.entry_wyszukaj.state((['disabled']))
 
-        self.wielkieLitVar = StringVar()
+        self.wielkieLitVar = tkk.StringVar()
         self.checkbutton30 = ttk.Checkbutton(self.frame_green, text='ingoruj wielkosc liter?')  # kwadrat do zaznaczenia
         self.checkbutton30.grid(row=3, column=0, padx=10, pady=0, columnspan=2, sticky='swe')
         self.checkbutton30.config(variable=self.wielkieLitVar, onvalue=1,
@@ -674,11 +674,11 @@ class Gui:
         self.canvas.create_line(0, 30, 10000, 30, fill='black', width=2)
 
 
-        self.checkbuttonFrame_purpureVar = StringVar(value='0')
+        self.checkbuttonFrame_purpureVar = tkk.StringVar(value='0')
         self.checkbutton2 = ttk.Checkbutton(self.frame_purpure, text='zaawansowane?')  # kwadrat do zaznaczenia
         self.checkbutton2.state((['disabled']))
 
-        self.checkbutton2.pack(side=TOP, anchor='nw')
+        self.checkbutton2.pack(side=tkk.TOP, anchor='nw')
         self.checkbutton2.config(variable=self.checkbuttonFrame_purpureVar, onvalue=1,
                                  offvalue=0, command=self.display_input)  # display_input pack okna
 
@@ -705,7 +705,7 @@ class Gui:
 
         self.zapisz_wszyskie_purpure_Frame = ttk.Button(self.frame_purpure, text="Zapisz wszyskie",
                                                command=lambda: self.saveFile(self.full_list_reserch_patch_files))
-        self.zapisz_wszyskie_purpure_Frame.pack(side=TOP, )
+        self.zapisz_wszyskie_purpure_Frame.pack(side=tkk.TOP, )
         self.zapisz_wszyskie_purpure_Frame.state(['disabled'])
 
 
@@ -718,7 +718,7 @@ class Gui:
 
     def _create__yelow_Frame(self, listaPelneWynikiWyszukaniaZsciezka):
         self.button_frame_green.state((['disabled']))
-        self.frame_yelow.config(relief=SUNKEN, padding=(30, 15))  # FLAT(domyslnie),RAISED,S
+        self.frame_yelow.config(relief=tkk.SUNKEN, padding=(30, 15))  # FLAT(domyslnie),RAISED,S
 
 
         # nisze wszystkie wyniki jesli istnieja a widgety_wyniki stworzylem w __init__
@@ -758,7 +758,7 @@ class Gui:
                 # nr_pola cyfry to 0-9
                 for nr_pola in range(int(self.scaleW_value.get())):  # 10 entry
                     widgety = {}
-                    widgety['entry_str'] = StringVar(self.root)
+                    widgety['entry_str'] = tkk.StringVar(self.root)
                     if nr_pola < len(wynik):  # aby nie dodawalo do pola wyniku ktorego juz nie ma
                         widgety['entry_str'].set(wynik[nr_pola])  # ustawi entry_str na warosc wynolu
 
@@ -773,8 +773,8 @@ class Gui:
 
                     widgety['entry'].state(['readonly'])
 
-                    widgety['checkbox_str'] = StringVar(value='off')
-                    widgety['checkbox_nr_pola'] = IntVar(value=nr_pola)
+                    widgety['checkbox_str'] = tkk.StringVar(value='off')
+                    widgety['checkbox_nr_pola'] = tkk.IntVar(value=nr_pola)
 
 
 
@@ -803,8 +803,8 @@ class Gui:
 
 
 
-        self.scaleW = Scale(self.frame_black, from_=10, label='ilość wyszukanych slow po', variable=self.scaleW_value,
-                            length=300, to=20, resolution=10,orient=HORIZONTAL  ) #command=lambda e: self.root.after(100,self.SetSize)
+        self.scaleW = tkk.Scale(self.frame_black, from_=10, label='ilość wyszukanych slow po', variable=self.scaleW_value,
+                            length=300, to=20, resolution=10,orient=tkk.HORIZONTAL  ) #command=lambda e: self.root.after(100,self.SetSize)
         # self.scaleW.set(3)
         self.scaleW.grid(row=0, column=2, padx=0, pady=20)
 
@@ -884,7 +884,7 @@ class Gui:
 
 
 
-        self.checkbuttonFrame_frame_last = IntVar(value=0)
+        self.checkbuttonFrame_frame_last = tkk.IntVar(value=0)
         self.checkbutton33 = ttk.Checkbutton(self.frame_last, text='dodać nazwe plków??')  # kwadrat do zaznaczenia
         self.checkbutton33.state((['!disabled']))
 
