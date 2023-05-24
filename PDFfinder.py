@@ -579,10 +579,10 @@ class Gui:
         len_fraza_szukana = len(fraza_szukana.split())
         lista_list_wystapien_slowa_wraz_z_czerema_nast_jednego_pliku = []
 
-        if self.wielkieLitVar.get():
-            fraza_szukana = fraza_szukana.lower()
+#if self.wielkieLitVar.get() == "1":
+#            fraza_szukana = fraza_szukana.lower()
+#            full_txt_from_pdf = full_txt_from_pdf.lower()
 
-            full_txt_from_pdf = full_txt_from_pdf.lower()
         full_txt_from_pdf__split = full_txt_from_pdf.split()
 
         print('fraza_szukana zanajezona jako: ', fraza_szukana)
@@ -592,21 +592,35 @@ class Gui:
             textjoin = " ".join(full_txt_from_pdf__split[
                                 idx:idx + len_fraza_szukana])  # textjoin slozy do tego by wziol pod uwage wyszukanie z kilku slów
 
-            if fraza_szukana == textjoin:
-                print('idx fraza_szukana:', idx)
-                listatemp.append(textjoin)  # dodaje zeiss
-                for i in range(idx + len_fraza_szukana,
-                               idx + len_fraza_szukana + 19):  # TU MA BYC NA SZTYWNO 10 - to entry beda decydowac ile widoczne
-                    # dodatkowo +- dlatego ze pdf
+            if self.wielkieLitVar.get() == "1":
+                if fraza_szukana.lower() == textjoin.lower():
+                    listatemp.append(textjoin)  # dodaje zeiss
+                    for i in range(idx + len_fraza_szukana,
+                                   idx + len_fraza_szukana + 19):  
+                        try:
 
-                    # len_fraza_szukana - jesli wiecej niz 1 tzn ze wyszukujemy wiecej niz jedno slowo
-                    # idx+len_fraza_szukana - od slowa/slow(1-zeiss,2-zejs gowno)
-                    try:
+                            listatemp.append(full_txt_from_pdf__split[i])
+                        except:
+                            pass
+                    lista_list_wystapien_slowa_wraz_z_czerema_nast_jednego_pliku.append(listatemp)
 
-                        listatemp.append(full_txt_from_pdf__split[i])
-                    except:
-                        pass
-                lista_list_wystapien_slowa_wraz_z_czerema_nast_jednego_pliku.append(listatemp)
+            else:
+                if fraza_szukana == textjoin:
+
+
+                    listatemp.append(textjoin)  # dodaje zeiss
+                    for i in range(idx + len_fraza_szukana,
+                                   idx + len_fraza_szukana + 19):  # TU MA BYC NA SZTYWNO 10 - to entry beda decydowac ile widoczne
+                        # dodatkowo +- dlatego ze pdf
+
+                        # len_fraza_szukana - jesli wiecej niz 1 tzn ze wyszukujemy wiecej niz jedno slowo
+                        # idx+len_fraza_szukana - od slowa/slow(1-zeiss,2-zejs gowno)
+                        try:
+
+                            listatemp.append(full_txt_from_pdf__split[i])
+                        except:
+                            pass
+                    lista_list_wystapien_slowa_wraz_z_czerema_nast_jednego_pliku.append(listatemp)
 
 
         return lista_list_wystapien_slowa_wraz_z_czerema_nast_jednego_pliku
@@ -639,11 +653,11 @@ class Gui:
         self.entry_wyszukaj.grid(row=4, column=0, padx=10, pady=0, columnspan=2, sticky='swe')
         self.entry_wyszukaj.state((['disabled']))
 
-        self.wielkieLitVar = tkk.StringVar()
+        self.wielkieLitVar = tkk.StringVar(value='0')
         self.checkbutton30 = ttk.Checkbutton(self.frame_green, text='ingoruj wielkosc liter?')  # kwadrat do zaznaczenia
         self.checkbutton30.grid(row=3, column=0, padx=10, pady=0, columnspan=2, sticky='swe')
-        self.checkbutton30.config(variable=self.wielkieLitVar, onvalue=1,
-                                  offvalue=0)
+        self.checkbutton30.config(variable=self.wielkieLitVar, onvalue="1",
+                                  offvalue="0")
         self.checkbutton30.state(['disabled'])
 
         link5 = ttk.Label(self.frame_green, text='Wpisz fraze szukana', font=('Arial', 8))
