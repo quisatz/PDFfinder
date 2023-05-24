@@ -1,3 +1,4 @@
+
 '''
 do zrobienia pisane 30.04.2023:
 
