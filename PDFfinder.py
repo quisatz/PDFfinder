@@ -593,35 +593,24 @@ class Gui:
                                 idx:idx + len_fraza_szukana])  # textjoin slozy do tego by wziol pod uwage wyszukanie z kilku slów
 
             if self.wielkieLitVar.get() == "1":
-                if fraza_szukana.lower() == textjoin.lower():
-                    listatemp.append(textjoin)  # dodaje zeiss
-                    for i in range(idx + len_fraza_szukana,
-                                   idx + len_fraza_szukana + 19):  
-                        try:
-
-                            listatemp.append(full_txt_from_pdf__split[i])
-                        except:
-                            pass
-                    lista_list_wystapien_slowa_wraz_z_czerema_nast_jednego_pliku.append(listatemp)
-
+                czy_znaleziono_fraze = fraza_szukana.lower() == textjoin.lower()
             else:
-                if fraza_szukana == textjoin:
+                czy_znaleziono_fraze = fraza_szukana == textjoin
 
-
-                    listatemp.append(textjoin)  # dodaje zeiss
-                    for i in range(idx + len_fraza_szukana,
-                                   idx + len_fraza_szukana + 19):  # TU MA BYC NA SZTYWNO 10 - to entry beda decydowac ile widoczne
+            if czy_znaleziono_fraze:
+                listatemp.append(textjoin)  # dodaje zeiss
+                for i in range(idx + len_fraza_szukana,
+                               idx + len_fraza_szukana + 19):  # TU MA BYC NA SZTYWNO 10 - to entry beda decydowac ile widoczne
                         # dodatkowo +- dlatego ze pdf
 
                         # len_fraza_szukana - jesli wiecej niz 1 tzn ze wyszukujemy wiecej niz jedno slowo
                         # idx+len_fraza_szukana - od slowa/slow(1-zeiss,2-zejs gowno)
-                        try:
+                    try:
 
-                            listatemp.append(full_txt_from_pdf__split[i])
-                        except:
-                            pass
-                    lista_list_wystapien_slowa_wraz_z_czerema_nast_jednego_pliku.append(listatemp)
-
+                        listatemp.append(full_txt_from_pdf__split[i])
+                    except:
+                        pass
+                lista_list_wystapien_slowa_wraz_z_czerema_nast_jednego_pliku.append(listatemp)
 
         return lista_list_wystapien_slowa_wraz_z_czerema_nast_jednego_pliku
 
