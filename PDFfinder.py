@@ -28,7 +28,7 @@ try:
 
 except:
     pass
-#from pathlib import Path
+from pathlib import Path
 import pdfplumber
 import pyperclip
 import fnmatch
@@ -99,7 +99,7 @@ class Gui:
     def nowe_szukanie(self , *args):
         self.full_list_reserch_patch_files = []
         self.widgety_wyniki = []
-
+        self.wielkieLitVar.set("0")
         self.entry_wyszukajVar.set("")
         self.checkbuttonFrame_purpureVar.set("0")
         self.checkbuttonFrame_frame_last.set(0)
@@ -161,10 +161,22 @@ class Gui:
             filetypes=[
                 ("Text file", ".txt"),
                 ("CSV file", ".csv"),
+                ("HTML file", ".html"),
                 ("All files", ".*"),
             ])
+
         if file is None:
             return
+
+###############  html code generator
+
+###HTML
+        if file.name.split('.')[-1] == 'html':
+           print('jest html')
+            ##### tu wstawic kod generujacy tableke w html
+
+
+
 
         file.write(self.full_txt)
         file.close()
@@ -230,32 +242,18 @@ class Gui:
             filetypes=[
                 ("Text file", ".txt"),
                 ("CSV file", ".csv"),
+                ("HTML file", ".html"),
                 ("All files", ".*"),
             ])
         if file is None:
             return
 
+        ###############  html code generator
 
-#start################## do pobrania wartosci filetypes a tym samym wywoania innego kodu gdy sie wybierze rozszezenie html
-        # def ask_save(self):
-        #     type_var = tk.StringVar()
-        #     new.path_save = filedialog.asksaveasfilename(initialdir="/",
-        #                                                  title="Select the path to save the Image. ",
-        #                                                  filetypes=[("PNG", '*.png'),
-        #                                                             ("JPEG", '*.jpg'), ("GIF", '*.gif'),
-        #                                                             ("ICON", '*.ico'), ("BMP", '*.bmp'),
-        #                                                             ("IM", '*.im'), ("JFIF", '*.jfif')],
-        #                                                  typevariable=type_var)
-        #     if new.path_save:
-        #         file_type = type_var.get()
-        #         if not new.path_save.lower().endswith(".png") and file_type == "PNG":
-        #             new.path_save += ".png"
-
-        # if file:
-        #     if Path(file).suffix == '.txt':
-        #         print(file)
-        #         print("Image")
-# end################# do pobrania wartosci filetypes a tym samym wywoania innego kodu gdy sie wybierze rozszezenie html
+        ###HTML
+        if file.name.split('.')[-1] == 'html':
+            print('jest html')
+            ##### tu wstawic kod generujacy tableke w html
 
         file.write(self.full_txt)
         file.close()
@@ -529,6 +527,8 @@ class Gui:
             self.button_frame_green1.state(['disabled'])
             self.button_frame_green2.state(['disabled'])
 
+
+
         else:
             self.frame_end.pack()
 
@@ -578,10 +578,6 @@ class Gui:
         fraza_szukana = self.entry_wyszukaj.get()
         len_fraza_szukana = len(fraza_szukana.split())
         lista_list_wystapien_slowa_wraz_z_czerema_nast_jednego_pliku = []
-
-#if self.wielkieLitVar.get() == "1":
-#            fraza_szukana = fraza_szukana.lower()
-#            full_txt_from_pdf = full_txt_from_pdf.lower()
 
         full_txt_from_pdf__split = full_txt_from_pdf.split()
 
