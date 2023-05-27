@@ -1,75 +1,59 @@
 '''
-do zrobienia pisane 30.04.2023:
+do zrobienia pisane 27.05.2023:
 
-+++++++++++++++1. Scroll                           dla yelow frame - dla wikszej ilosci wynikow
-+++++++++++++++2. Rozszezenie wynikow pomiedzy 10wynikami nieco i pomiedzy plikami bardziej i kolorystyka
-+++++++++++++++2.5 Stworzenie cheboxa              zaznaczajacego cala kolumne wynikow
-+++++++++++3. Przechowywanie wynikow w chexboxach
-+++++++++++++4.Stworzenie przyisku                dla funcki generujacej ostatecze wyniki - liste z checbox
-++++++++++++5.Stworzenie funcji tworzacej liste z checboxow nr4
-+++++++++++++++6. podlinkowanie przycisku z nr5 do nr4
 7. stworzenie 4 fukcji exportujacej do pliku z oone wyboru gdzie zapisac wyniki ostateczne z nr5:
             csv ,
             html ,
             excel ,
-            pdf
 8.Podlinkowanie przyciskow z menu do 4 funcji
-9.Stworzenie funkicji do nowego szukania
++++++++++++++++++++++++++9.Stworzenie funkicji do nowego szukania
 10.Zajecie sie problemamy pozosyalych elementow menu
 11.Refactoring
 12. Kontorla przez K. Lemka
 
 '''
+###################path to work when having packages locally#######################################
+# import sys
+# try:
+#     sys.path.append(r'D:/Python/PycharmProjects/__Repo/PDFfinder/venv/Lib/site-packages')
+#
+# except:
+#     pass
+###################################################################################################
+#from pathlib import Path
 
-import sys
-
-try:
-    sys.path.append(r'D:/Python/PycharmProjects/__Repo/PDFfinder/venv/Lib/site-packages')
-
-except:
-    pass
-from pathlib import Path
+import os
 import pdfplumber
 import pyperclip
-import fnmatch
-import os
-from math import floor
-#import random
-
 import webbrowser
+import fnmatch
 
-#from tkinter import *
-from tkinter import ttk, filedialog, messagebox
-from tkinter import Menu
-
+from math import floor
+from tkinter import ttk, filedialog, messagebox , Menu
 import tkinter as tkk
 
 
 class Gui:
 
     def __init__(self):
-        self.root = tkk.Tk()  # tworze okno root
-        self.szukaj = ''
-        width_of_window = 1200  #
-        height_of_window = 700  #
-        screen_width = self.root.winfo_screenwidth()  #
-        screen_height = self.root.winfo_screenheight()  #
-        x_coordinate = (screen_width / 2) - (width_of_window / 2)  #
-        y_coordinate = (screen_height / 2) - (height_of_window / 2)  #
+        self.root = tkk.Tk()
 
-        self.root.geometry("%dx%d+%d+%d" % (width_of_window, height_of_window, x_coordinate, y_coordinate))
+        self.search = ''
         self.scaleW_value = tkk.IntVar(value=20)
         self.scaleW_value.trace_add('write', self.refresh_frame_yelow)
 
-        self.entry_wyszukajVar = tkk.StringVar(self.root)
 
+        width_of_window = 1200
+        height_of_window = 700
 
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+        x_coordinate = (screen_width / 2) - (width_of_window / 2)
+        y_coordinate = (screen_height / 2) - (height_of_window / 2)
+        self.root.geometry("%dx%d+%d+%d" % (width_of_window, height_of_window, x_coordinate, y_coordinate))
 
-
-        # self.logo = PhotoImage(file='logoOpnie.png')  # scizka do gif przycisku
-
- #       self._scrollbar()
-        self._create_menubar()  # fuckcja do stwoprzenia menue
+        self.entry_searchVar = tkk.StringVar(self.root)
+        self._create_menubar()
         self._create_green_Frame()
         self._create_purpure_Frame()
 
@@ -77,15 +61,16 @@ class Gui:
 
 
 
-        self.entry_wyszukajVar.trace_add('write', self.entry_not_emplty)
+        self.entry_searchVar.trace_add('write', self.entry_not_emplty)
 
         self.frame_black = ttk.Frame(self.root)
+#        self.frame_black.config(relief=tkk.SUNKEN)
 
 
         self.frame_yelow = ttk.Frame(self.root)
 
-        self._create_last_Frame()
-        self._create_end_Frame()
+        self._save_selected__add_file_names()
+        self.no_results_found()
         self.widgety_wyniki = []
         #self.root.state('zoomed')
 
@@ -100,7 +85,7 @@ class Gui:
         self.full_list_reserch_patch_files = []
         self.widgety_wyniki = []
         self.wielkieLitVar.set("0")
-        self.entry_wyszukajVar.set("")
+        self.entry_searchVar.set("")
         self.checkbuttonFrame_purpureVar.set("0")
         self.checkbuttonFrame_frame_last.set(0)
 
@@ -109,10 +94,10 @@ class Gui:
         self.button_frame_green1.state((['!disabled']))
         self.button_frame_green1.state((['!disabled']))
 
-        self.frame_end.forget()
+        self.frame__save_selected__add_file_names.forget()
         self.frame_yelow.forget()
         self.frame_black.forget()
-        self.frame_last.forget()
+        self.frame_no_results_found.forget()
 
 
 
@@ -130,7 +115,7 @@ class Gui:
 
 
     def entry_not_emplty(self , *args):
-        if len(self.entry_wyszukajVar.get()) > 2:
+        if len(self.entry_searchVar.get()) > 2:
             self.button_frame_green.state(['!disabled'])
         else:
             self.button_frame_green.state(['disabled'])
@@ -223,8 +208,6 @@ class Gui:
                 if self.checkbuttonFrame_frame_last.get() == 1:
                     templist.append(nazwa_pliku)
 
-                # if 19 in self.list_indexy:
-                #     print('nazwa_pliku::' , nazwa_pliku)
 
 
                 temp2 = ''
@@ -258,67 +241,7 @@ class Gui:
         file.write(self.full_txt)
         file.close()
 
-
-
-
-
-
-
-
-
-
-
-
-
-                # print('----------------------------')
-                # #print(wyniki)
-                # print(wyniki , 'i, ' , plik[-1])
-                # print('----------------------------')
-
-            # for result in flies[0:-1]:
-            #     self.zaznaczenie_reserch_patch_files.append(result)
-                # for lists in result:
-                #     self.zaznaczenie_reserch_patch_files.append(lists)
-
         print('self.zaznaczenie_reserch_patch_files' , self.zaznaczenie_reserch_patch_files)
-
-
-
-        #
-        # for i in self.list_indexy:
-        #
-        #     print(self.zaznaczenie_reserch_patch_files[i])
-
-
-        # self.full_txt = ''
-        # for i in listen:
-        #     nazwa_pliku = i[-1].split("/")[-1]  # wyodrebnia nazwe pliku kazdego wyszukania
-        #
-        #     for j in i[0:-1]:
-        #         j.append(nazwa_pliku)
-        #         temp2 = ''
-        #         for n in j:
-        #             temp2 += n + ';'
-        #         self.full_txt += (temp2[0:-1] + "\n")
-        #
-        # file = filedialog.asksaveasfile(
-        #     defaultextension='.txt',
-        #     filetypes=[
-        #         ("Text file", ".txt"),
-        #         ("CSV file", ".csv"),
-        #         ("All files", ".*"),
-        #     ])
-        # if file is None:
-        #     return
-        #
-        # file.write(self.full_txt)
-        # file.close()
-
-
-
-
-
-
 
     def _scrollbar(self):
         self.main_frame = tkk.Frame(self.root)
@@ -517,7 +440,7 @@ class Gui:
 
 
         if len(self.full_list_reserch_patch_files[0][0]) > 1 and isinstance(self.full_list_reserch_patch_files[0][0] ,list):
-            self.frame_end.forget()
+            self.frame_no_results_found.forget()
             self._create__yelow_Frame(a)
             self.checkbutton2.state((['!disabled']))
             self.zapisz_wszyskie_purpure_Frame.state(['!disabled'])
@@ -530,7 +453,7 @@ class Gui:
 
 
         else:
-            self.frame_end.pack()
+            self.frame_no_results_found.pack()
 
         return a
 
@@ -613,8 +536,7 @@ class Gui:
     def _create_green_Frame(self):
 
         self.frame_green = ttk.Frame(self.root)
-
-        self.frame_green.config(height=100, width=400)
+        self.frame_green.config(height=100, width=400 , ) #relief=tkk.SUNKEN,
 
         ttk.Label(self.frame_green, text='Wybierz pliki/pliki lub folder do przeszukania', font=('Arial', 12)).grid(
             row=0,
@@ -633,7 +555,7 @@ class Gui:
         # ttk.Label(self.frame_green, text='', font=('Arial', 8)).grid(row=3, column=0, pady=0, padx=100, sticky='sw')
 
 
-        self.entry_wyszukaj = ttk.Entry(self.frame_green, textvariable=self.entry_wyszukajVar, width=45,
+        self.entry_wyszukaj = ttk.Entry(self.frame_green, textvariable=self.entry_searchVar, width=45,
                                         font=('Arial', 10))
         self.entry_wyszukaj.grid(row=4, column=0, padx=10, pady=0, columnspan=2, sticky='swe')
         self.entry_wyszukaj.state((['disabled']))
@@ -660,23 +582,19 @@ class Gui:
 
     def _create_purpure_Frame(self):
         self.frame_purpure = ttk.Frame(self.root)
+#        self.frame_purpure.config(relief=tkk.SUNKEN)  # relief=tkk.SUNKEN,
+
         self.frame_purpure.pack()
 
-
-
         self.canvas = tkk.Canvas(self.frame_purpure)  # tworze prótno
-
-
-        self.canvas.pack()
         self.canvas.config(height=30)
-
         self.canvas.create_line(0, 30, 10000, 30, fill='black', width=2)
+        self.canvas.pack()
 
 
         self.checkbuttonFrame_purpureVar = tkk.StringVar(value='0')
         self.checkbutton2 = ttk.Checkbutton(self.frame_purpure, text='zaawansowane?')  # kwadrat do zaznaczenia
         self.checkbutton2.state((['disabled']))
-
         self.checkbutton2.pack(side=tkk.TOP, anchor='nw')
         self.checkbutton2.config(variable=self.checkbuttonFrame_purpureVar, onvalue=1,
                                  offvalue=0, command=self.display_input)  # display_input pack okna
@@ -858,23 +776,23 @@ class Gui:
         self.button_frame_green.state((['!disabled']))
 
 
-    def _create_end_Frame(self):
+    def no_results_found(self):
 
 
-        self.frame_end = ttk.Frame(self.root)
-        self.frame_end.config(height=50, width=400)
+        self.frame_no_results_found = ttk.Frame(self.root)
+        self.frame_no_results_found.config(height=50, width=400)
 
-        nothing = ttk.Label(self.frame_end, text='Nie znaleziono żadnych wynikow!', font=('Arial', 20))
+        nothing = ttk.Label(self.frame_no_results_found, text='Nie znaleziono żadnych wynikow!', font=('Arial', 20))
         nothing.grid(row=5, column=0, pady=50, padx=100, columnspan=2)
 
 
 
 
-    def _create_last_Frame(self):
-        self.frame_last = ttk.Frame(self.root)
-        self.frame_last.config(height=50, width=400)
+    def _save_selected__add_file_names(self):
+        self.frame__save_selected__add_file_names = ttk.Frame(self.root)
+        self.frame__save_selected__add_file_names.config(height=50, width=400 )
 
-        self.zapisz_zaznaczone_last_Frame = ttk.Button(self.frame_last, text="Zapisz zaznaczone",
+        self.zapisz_zaznaczone_last_Frame = ttk.Button(self.frame__save_selected__add_file_names, text="Zapisz zaznaczone",
                                                command= lambda: self.fun_zapisz_zaznaczone(self.full_list_reserch_patch_files))
 
         self.zapisz_zaznaczone_last_Frame.grid(row=0, column=0, padx=0, pady=10)
@@ -884,7 +802,7 @@ class Gui:
 
 
         self.checkbuttonFrame_frame_last = tkk.IntVar(value=0)
-        self.checkbutton33 = ttk.Checkbutton(self.frame_last, text='dodać nazwe plków??')  # kwadrat do zaznaczenia
+        self.checkbutton33 = ttk.Checkbutton(self.frame__save_selected__add_file_names, text='dodać nazwe plków??')  # kwadrat do zaznaczenia
         self.checkbutton33.state((['!disabled']))
 
         self.checkbutton33.grid(row=0, column=2, padx=30, pady=10)
@@ -902,31 +820,20 @@ class Gui:
             #self.root.state('zoomed')
             self.frame_black.pack()
             self.frame_yelow.pack()
-            self.frame_last.pack()
+            self.frame__save_selected__add_file_names.pack()
 
         else:
             self.frame_black.forget()
             self.frame_yelow.forget()
-            self.frame_last.forget()
+            self.frame__save_selected__add_file_names.forget()
             self.zapisz_wszyskie_purpure_Frame.state(['!disabled'])
 
     def refresh_frame_yelow(self, *args):
-        # self.frame_yelow.destroy()
-        #self.root.state('zoomed')
         self.tworzeWpisy(self.full_list_reserch_patch_files)
 
         print('self.scaleW.get()!!!', self.scaleW_value.get())
         self.zapisz_wszyskie_purpure_Frame.state(['disabled'])
-        # print('------------KONIEC---------')
-        # print('---------------------------')
-        # print('---START----self.widgety_wyniki:--------------------')
-        # print(self.widgety_wyniki)
-        # print('---KONIEC----self.widgety_wyniki:-------------------')
-        # print('----------------------------------------------------')
-        # print('---START----for i in self.widgety_wyniki:--------------------')
-        # for i in self.widgety_wyniki:
-        #     print('i:' , i)
-        # print('---koniec----for i in self.widgety_wyniki:--------------------')
+
 
 
 
