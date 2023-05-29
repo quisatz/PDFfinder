@@ -12,14 +12,6 @@ do zrobienia pisane 27.05.2023:
 12. Kontorla przez K. Lemka
 
 '''
-###################path to work when having packages locally#######################################
-# import sys
-# try:
-#     sys.path.append(r'D:/Python/PycharmProjects/__Repo/PDFfinder/venv/Lib/site-packages')
-#
-# except:
-#     pass
-###################################################################################################
 # from pathlib import Path
 
 import os
