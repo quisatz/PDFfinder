@@ -1,6 +1,8 @@
 import tkinter as tkk
 from tkinter import Menu
 
+from gui import feedback
+
 
 def create_menubar(self):
     self.menubar = tkk.Menu(self.root)
@@ -29,7 +31,7 @@ def create_menubar(self):
     language.add_command(label='Polski', command=lambda: print('Saving As...'))
     language.add_command(label='English', command=lambda: print('Saving All...'))
 
-    help_.add_command(label='Wyślij opinię', command=lambda: self.send_feedback())
+    help_.add_command(label='Wyślij opinię', command=lambda: feedback.send_feedback(self))
     help_.add_command(label='Pomoc', command=lambda: print('Opening File...'))
     help_.add_separator()
     help_.add_command(label='PDF finder - info', command=lambda: self.PDF_finder_info())
