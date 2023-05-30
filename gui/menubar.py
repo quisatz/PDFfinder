@@ -2,7 +2,7 @@ import tkinter as tkk
 from tkinter import Menu
 
 from gui import feedback
-
+from gui import info
 
 def create_menubar(self):
     self.menubar = tkk.Menu(self.root)
@@ -34,4 +34,4 @@ def create_menubar(self):
     help_.add_command(label='Wyślij opinię', command=lambda: feedback.send_feedback(self))
     help_.add_command(label='Pomoc', command=lambda: print('Opening File...'))
     help_.add_separator()
-    help_.add_command(label='PDF finder - info', command=lambda: self.PDF_finder_info())
+    help_.add_command(label='PDF finder - info', command=lambda: info.PDF_finder_info(self))
