@@ -24,6 +24,8 @@ from math import floor
 from tkinter import ttk, filedialog, messagebox, Menu
 import tkinter as tkk
 
+from gui import menubar
+
 
 class Gui:
 
@@ -49,7 +51,7 @@ class Gui:
         y_coordinate = (screen_height / 2) - (height_of_window / 2)
         self.root.geometry("%dx%d+%d+%d" % (width_of_window, height_of_window, x_coordinate, y_coordinate))
 
-        self._create_menubar()
+        menubar.create_menubar(self)
         self._create_green_frame()
         self._create_purpure_frame()
 
@@ -194,38 +196,6 @@ class Gui:
         self.top_frame = tkk.Frame(self.main_canvas)
 
         self.main_canvas.create_window((0, 0), window=self.top_frame, anchor="nw")
-
-    def _create_menubar(self):
-        self.menubar = tkk.Menu(self.root)
-        self.root.configure(menu=self.menubar)
-
-        file = Menu(self.menubar, tearoff=0)
-        tools = Menu(self.menubar, tearoff=0)
-        help_ = Menu(self.menubar, tearoff=0)
-
-        self.menubar.add_cascade(menu=file, label='Plik')
-        self.menubar.add_cascade(menu=tools, label='Narzędzia')
-        self.menubar.add_cascade(menu=help_, label='Pomoc')
-
-        file.add_command(label='Nowe szukanie', command=self.new_search)
-        file.add_separator()
-
-        file.add_command(label='Wyjście', command=self.root.destroy)
-
-        design = Menu(tools, tearoff=0)
-        tools.add_cascade(menu=design, label='Wygląd')
-        design.add_command(label='Jasny', command=lambda: print('Saving As...'))
-        design.add_command(label='Ciemny', command=lambda: print('Saving All...'))
-
-        language = Menu(tools, tearoff=0)
-        tools.add_cascade(menu=language, label='Język')
-        language.add_command(label='Polski', command=lambda: print('Saving As...'))
-        language.add_command(label='English', command=lambda: print('Saving All...'))
-
-        help_.add_command(label='Wyślij opinię', command=lambda: self.send_feedback())
-        help_.add_command(label='Pomoc', command=lambda: print('Opening File...'))
-        help_.add_separator()
-        help_.add_command(label='PDF finder - info', command=lambda: self.PDF_finder_info())
 
     def send_feedback(self):
         bg_color = '#0088FF'
