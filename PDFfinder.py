@@ -12,14 +12,6 @@ do zrobienia pisane 27.05.2023:
 12. Kontorla przez K. Lemka
 
 '''
-###################path to work when having packages locally#######################################
-# import sys
-# try:
-#     sys.path.append(r'D:/Python/PycharmProjects/__Repo/PDFfinder/venv/Lib/site-packages')
-#
-# except:
-#     pass
-###################################################################################################
 # from pathlib import Path
 
 import os
@@ -41,10 +33,10 @@ class Gui:
         self.search = ''
 
         self.scaleW_value = tkk.IntVar(value=20)
-        self.scaleW_value.trace_add('write', self.refresh_frame_yelow)
+        self.scaleW_value.trace_add('write', self.refresh_frame_yellow)
 
         self.entry_searchVar = tkk.StringVar(self.root)
-        self.entry_searchVar.trace_add('write', self.entry_not_emplty)
+        self.entry_searchVar.trace_add('write', self.entry_not_empty)
 
         self.widgets_results = []
 
@@ -58,15 +50,14 @@ class Gui:
         self.root.geometry("%dx%d+%d+%d" % (width_of_window, height_of_window, x_coordinate, y_coordinate))
 
         self._create_menubar()
-        self._create_green_Frame()
-        self._create_purpure_Frame()
+        self._create_green_frame()
+        self._create_purpure_frame()
 
         self.frame_black = ttk.Frame(self.root)
-        self.frame_yelow = ttk.Frame(self.root)
+        self.frame_yellow = ttk.Frame(self.root)
 
         self._save_selected__add_file_names()
         self.no_results_found()
-
 
     def new_search(self, *args):
         self.full_list_reserch_patch_files = []
@@ -78,7 +69,7 @@ class Gui:
         self.button_folder.state((['!disabled']))
         self.button_folder.state((['!disabled']))
         self.frame__save_selected__add_file_names.forget()
-        self.frame_yelow.forget()
+        self.frame_yellow.forget()
         self.frame_black.forget()
         self.frame_no_results_found.forget()
         self.advanced.state((['disabled']))
@@ -87,14 +78,13 @@ class Gui:
         self.button_search.state(['disabled'])
         self.ignore_case.state(['disabled'])
 
-
-    def entry_not_emplty(self , *args):
+    def entry_not_empty(self, *args):
         if len(self.entry_searchVar.get()) > 2:
             self.button_search.state(['!disabled'])
         else:
             self.button_search.state(['disabled'])
 
-    def saveFile(self , listen , mark=0):
+    def save_file(self, listen, mark=0):
         self.full_txt = ''
 
         if mark == 0:
@@ -124,18 +114,13 @@ class Gui:
 
 ###HTML
         if file.name.split('.')[-1] == 'html':
-           print('TEST: is html')
+            print('TEST: is html')
             ##### insert the code to generate the tables in html here
-
-
-
 
         file.write(self.full_txt)
         file.close()
 
-
-
-    def function_save_selected(self , listen):
+    def function_save_selected(self, listen):
         self.list_selection = []
         for results in self.widgets_results:
             for _dict in results:
@@ -143,7 +128,7 @@ class Gui:
                     if _dict['checkbox_str'].get() == "on":
                         selection_index = _dict['checkbox_field_no'].get()
                         self.list_selection.append(selection_index)
-                except ValueError :
+                except ValueError:
                     selection_index = -1
                     self.list_selection.append(selection_index)
         self.select_reserch_patch_files = []
@@ -155,17 +140,17 @@ class Gui:
             file_name = plik[-1].split("/")[-1]
 
             for results in plik[0:-1]:
-                templist = []
+                temp_list = []
 
                 for inx in self.list_selection:
-                    templist.append(results[inx])
+                    temp_list.append(results[inx])
 
                 if self.Var_save_selected.get() == 1:
-                    templist.append(file_name)
+                    temp_list.append(file_name)
 
                 temp2 = ''
 
-                for n in templist:
+                for n in temp_list:
                     temp2 += n + ';'
 
                 self.full_txt += (temp2[0:-1] + "\n")
@@ -210,8 +195,6 @@ class Gui:
 
         self.main_canvas.create_window((0, 0), window=self.top_frame, anchor="nw")
 
-
-
     def _create_menubar(self):
         self.menubar = tkk.Menu(self.root)
         self.root.configure(menu=self.menubar)
@@ -221,25 +204,25 @@ class Gui:
         help_ = Menu(self.menubar, tearoff=0)
 
         self.menubar.add_cascade(menu=file, label='Plik')
-        self.menubar.add_cascade(menu=tools, label='Narzedzia')
+        self.menubar.add_cascade(menu=tools, label='Narzędzia')
         self.menubar.add_cascade(menu=help_, label='Pomoc')
 
         file.add_command(label='Nowe szukanie', command=self.new_search)
         file.add_separator()
 
-        file.add_command(label='Wyjscie', command=self.root.destroy)
+        file.add_command(label='Wyjście', command=self.root.destroy)
 
-        desain = Menu(tools, tearoff=0)
-        tools.add_cascade(menu=desain, label='Wyglad')
-        desain.add_command(label='Jasny', command=lambda: print('Saving As...'))
-        desain.add_command(label='Ciemny', command=lambda: print('Saving All...'))
+        design = Menu(tools, tearoff=0)
+        tools.add_cascade(menu=design, label='Wygląd')
+        design.add_command(label='Jasny', command=lambda: print('Saving As...'))
+        design.add_command(label='Ciemny', command=lambda: print('Saving All...'))
 
         language = Menu(tools, tearoff=0)
-        tools.add_cascade(menu=language, label='Jezyk')
+        tools.add_cascade(menu=language, label='Język')
         language.add_command(label='Polski', command=lambda: print('Saving As...'))
         language.add_command(label='English', command=lambda: print('Saving All...'))
 
-        help_.add_command(label='Wyslij opinie', command=lambda: self.send_feedback())
+        help_.add_command(label='Wyślij opinię', command=lambda: self.send_feedback())
         help_.add_command(label='Pomoc', command=lambda: print('Opening File...'))
         help_.add_separator()
         help_.add_command(label='PDF finder - info', command=lambda: self.PDF_finder_info())
@@ -248,7 +231,7 @@ class Gui:
         bg_color = '#0088FF'
         window2 = tkk.Toplevel(self.root, bg=bg_color)
         window2.grab_set()
-        window2.title('wyslij opinie')
+        window2.title('wyślij opinię')
 
         window2.title('Feedback')
         window2.resizable(False, False)
@@ -266,7 +249,7 @@ class Gui:
 
         self.logo = tkk.PhotoImage(file='logoOpnie.png')
         ttk.Label(self.frame_header, image=self.logo).grid(row=0, column=0, rowspan=2)
-        ttk.Label(self.frame_header, text='Zostaw swoja opinie.', style='Header.TLabel', background=bg_color).grid(
+        ttk.Label(self.frame_header, text='Zostaw swoją opinię.', style='Header.TLabel', background=bg_color).grid(
             row=0, column=1)
 
         self.frame_content = ttk.Frame(window2)
@@ -305,11 +288,11 @@ class Gui:
         window = tkk.Toplevel(self.root)  # tworze nowe okno ktore jest dzieckiem root
         window.title('PDF finder info')  # nazwa okna
 
-        windowWidth = self.root.winfo_reqwidth()
-        windowHeight = self.root.winfo_reqheight()
-        positionRight = int(self.root.winfo_screenwidth() / 2 - windowWidth / 2)
-        positionDown = int(self.root.winfo_screenheight() / 2 - windowHeight / 2)
-        window.geometry("+{}+{}".format(positionRight, positionDown))
+        window_width = self.root.winfo_reqwidth()
+        window_height = self.root.winfo_reqheight()
+        position_right = int(self.root.winfo_screenwidth() / 2 - window_width / 2)
+        position_down = int(self.root.winfo_screenheight() / 2 - window_height / 2)
+        window.geometry("+{}+{}".format(position_right, position_down))
 
         window.resizable(False, False)
         self.label = tkk.Label(window, width=5)
@@ -350,7 +333,6 @@ class Gui:
     def callback(self, url):
         webbrowser.open_new(url)
 
-
     def open_folder(self):
         self.open_action = filedialog.askdirectory()
         if self.open_action:
@@ -365,17 +347,15 @@ class Gui:
                 ("PDF Files", "*.pdf"),
                 ("All Files", "*.*")))
 
-
         if self.open_action:
             self.entry_search.state((['!disabled']))
             self.ignore_case.state(['!disabled'])
-
 
     def create_text_in_entries(self, full_list_reserch_patch_files):
 
         if len(self.full_list_reserch_patch_files[0][0]) > 1 and isinstance(self.full_list_reserch_patch_files[0][0], list):
             self.frame_no_results_found.forget()
-            self._create__yelow_Frame(full_list_reserch_patch_files)
+            self._create__yellow_frame(full_list_reserch_patch_files)
             self.advanced.state((['!disabled']))
             self.save_all_purpure_Frame.state(['!disabled'])
             self.entry_search.state((['disabled']))
@@ -404,56 +384,56 @@ class Gui:
 
         else:
             for file in files:
-                list_shearch_result_file = self.engine_shearch(self.pdf2txt(file))
-                list_shearch_result_file.append(file)
-                self.full_list_reserch_patch_files.append(list_shearch_result_file)
+                list_search_result_file = self.engine_search(self.pdf2txt(file))
+                list_search_result_file.append(file)
+                self.full_list_reserch_patch_files.append(list_search_result_file)
         print('------>return self.full_list_reserch_patch_files', self.full_list_reserch_patch_files)
         return self.full_list_reserch_patch_files
 
     def pdf2txt(self, fill_patch_pdf_file):
         with pdfplumber.open(fill_patch_pdf_file) as pdf:
             full_txt_from_pdf_file = ''
-            totalpages = len(pdf.pages)
-            for i in range(0, totalpages):
-                pageobj = pdf.pages[i]
-                full_txt_from_pdf_file += pageobj.extract_text() + '\n'
+            total_pages = len(pdf.pages)
+            for i in range(0, total_pages):
+                page_obj = pdf.pages[i]
+                full_txt_from_pdf_file += page_obj.extract_text() + '\n'
         return full_txt_from_pdf_file
 
-    def engine_shearch(self, full_txt_from_pdf):
+    def engine_search(self, full_txt_from_pdf):
         search_phrase = self.entry_search.get()
         len_search_phrase = len(search_phrase.split())
-        #templist3 -a list of lists of occurrences of the word followed by occurrences of one file
-        templist3 = []
+        # temp_list3 -a list of lists of occurrences of the word followed by occurrences of one file
+        temp_list3 = []
 
         full_txt_from_pdf__split = full_txt_from_pdf.split()
 
         print('search phrase find as: ', search_phrase)
 
         for idx, elem in enumerate(full_txt_from_pdf__split):
-            listatemp = []
-            textjoin = " ".join(full_txt_from_pdf__split[
+            lista_temp = []
+            text_join = " ".join(full_txt_from_pdf__split[
                                 idx:idx + len_search_phrase])
 
             if self.uppercaseVar.get() == "1":
-                has_phrase_found = search_phrase.lower() == textjoin.lower()
+                has_phrase_found = search_phrase.lower() == text_join.lower()
             else:
-                has_phrase_found = search_phrase == textjoin
+                has_phrase_found = search_phrase == text_join
 
             if has_phrase_found:
-                listatemp.append(textjoin)
+                lista_temp.append(text_join)
                 for i in range(idx + len_search_phrase,
-                               #hard 19 words after we found it
+                               # hard 19 words after we found it
                                idx + len_search_phrase + 19):
                     try:
 
-                        listatemp.append(full_txt_from_pdf__split[i])
+                        lista_temp.append(full_txt_from_pdf__split[i])
                     except:
                         pass
-                templist3.append(listatemp)
+                temp_list3.append(lista_temp)
 
-        return templist3
+        return temp_list3
 
-    def _create_green_Frame(self):
+    def _create_green_frame(self):
 
         self.frame_green = ttk.Frame(self.root)
         self.frame_green.config(height=100, width=400 , ) #relief=tkk.SUNKEN,
@@ -492,13 +472,12 @@ class Gui:
         self.button_search.state(['disabled'])
         self.frame_green.pack()
 
-
-    def _create_purpure_Frame(self):
+    def _create_purpure_frame(self):
         self.frame_purpure = ttk.Frame(self.root)
 #        self.frame_purpure.config(relief=tkk.SUNKEN)  # relief=tkk.SUNKEN,
         self.frame_purpure.pack()
 
-        self.canvas = tkk.Canvas(self.frame_purpure)  # tworze prótno
+        self.canvas = tkk.Canvas(self.frame_purpure)  # tworze płótno
         self.canvas.config(height=30)
         self.canvas.create_line(0, 30, 10000, 30, fill='black', width=2)
         self.canvas.pack()
@@ -514,27 +493,26 @@ class Gui:
         ttk.Label(self.frame_purpure, text='', font=('Arial', 8)).pack(pady=20)
 
         self.save_all_purpure_Frame = ttk.Button(self.frame_purpure, text="Zapisz wszyskie",
-                                                 command=lambda: self.saveFile(self.full_list_reserch_patch_files))
+                                                 command=lambda: self.save_file(self.full_list_reserch_patch_files))
         self.save_all_purpure_Frame.pack(side=tkk.TOP, )
         self.save_all_purpure_Frame.state(['disabled'])
 
-
-    def _create__yelow_Frame(self, list_full_search_results_from_path):
+    def _create__yellow_frame(self, list_full_search_results_from_path):
         self.button_search.state((['disabled']))
-        self.frame_yelow.config(relief=tkk.SUNKEN, padding=(30, 15))
+        self.frame_yellow.config(relief=tkk.SUNKEN, padding=(30, 15))
 
         for result in self.widgets_results:
-            for widgety in result:
-                widgety['entry'].destroy()
-                widgety['checkbox'].destroy()
+            for widgets in result:
+                widgets['entry'].destroy()
+                widgets['checkbox'].destroy()
 
         result_no = 0
         self.widgets_results = []
         list_full_search_results_from_1st_path = []
 
-        if len(self.full_list_reserch_patch_files[0][0]) > 1 and isinstance(self.full_list_reserch_patch_files[0][0] ,list):
-            list_full_search_results_from_1st_path = [list_full_search_results_from_path[0]] # concept change
-
+        if (len(self.full_list_reserch_patch_files[0][0]) > 1
+                and isinstance(self.full_list_reserch_patch_files[0][0], list)):
+            list_full_search_results_from_1st_path = [list_full_search_results_from_path[0]]  # concept change
 
         for file in list_full_search_results_from_1st_path:
             first_result_widgets = []
@@ -543,37 +521,37 @@ class Gui:
             for result in file[:-1]:
                 result_no += 1
                 for field_no in range(int(self.scaleW_value.get())):
-                    widgety = {}
-                    widgety['entry_str'] = tkk.StringVar(self.root)
+                    widgets = {'entry_str': tkk.StringVar(self.root)}
                     if field_no < len(result):
-                        widgety['entry_str'].set(result[field_no])
+                        widgets['entry_str'].set(result[field_no])
 
-                    widgety['entry'] = ttk.Entry(self.frame_yelow, textvariable=widgety['entry_str'], width=15,
+                    widgets['entry'] = ttk.Entry(self.frame_yellow, textvariable=widgets['entry_str'], width=15,
                                                  font=('Arial', 10))
 
                     if not floor(field_no / 10):
                         row = (result_no - 1) * 4 + 1
                     else:
                         row = (result_no - 1) * 4 + 3
-                    widgety['entry'].grid(row=row, column=field_no % 10, padx=0, pady=0)
-                    widgety['entry'].state(['readonly'])
-                    widgety['checkbox_str'] = tkk.StringVar(value='off')
-                    widgety['checkbox_field_no'] = tkk.IntVar(value=field_no)
+                    widgets['entry'].grid(row=row, column=field_no % 10, padx=0, pady=0)
+                    widgets['entry'].state(['readonly'])
+                    widgets['checkbox_str'] = tkk.StringVar(value='off')
+                    widgets['checkbox_field_no'] = tkk.IntVar(value=field_no)
 
                     if not floor(field_no / 10):
                         row = (result_no - 1) * 4 + 2
                     else:
                         row = (result_no - 1) * 4 + 4
-                    widgety['checkbox'] = ttk.Checkbutton(self.frame_yelow ,text='dodać?'  )
-                    widgety['checkbox'].config(variable=widgety['checkbox_str'], onvalue='on', offvalue='off')
-                    widgety['checkbox'].grid(row=row, column=field_no % 10, padx=0, pady=(0,20) , sticky = 'n')
+                    widgets['checkbox'] = ttk.Checkbutton(self.frame_yellow, text='dodać?')
+                    widgets['checkbox'].config(variable=widgets['checkbox_str'], onvalue='on', offvalue='off')
+                    widgets['checkbox'].grid(row=row, column=field_no % 10, padx=0, pady=(0, 20), sticky='n')
 
-                    first_result_widgets.append(widgety)
+                    first_result_widgets.append(widgets)
 
                 self.widgets_results.append(first_result_widgets)
 
-        self.scaleW = tkk.Scale(self.frame_black, from_=10, label='ilość wyszukanych slow po', variable=self.scaleW_value,
-                            length=300, to=20, resolution=10,orient=tkk.HORIZONTAL )
+        self.scaleW = tkk.Scale(
+            self.frame_black, from_=10, label='ilość wyszukanych słów po', variable=self.scaleW_value,
+            length=300, to=20, resolution=10,orient=tkk.HORIZONTAL)
 
         self.scaleW.grid(row=0, column=2, padx=0, pady=20)
 
@@ -588,51 +566,52 @@ class Gui:
     def no_results_found(self):
         self.frame_no_results_found = ttk.Frame(self.root)
         self.frame_no_results_found.config(height=50, width=400)
-        nothing = ttk.Label(self.frame_no_results_found, text='Nie znaleziono żadnych wynikow!', font=('Arial', 20))
+        nothing = ttk.Label(self.frame_no_results_found, text='Nie znaleziono żadnych wyników!', font=('Arial', 20))
         nothing.grid(row=5, column=0, pady=50, padx=100, columnspan=2)
-
-
-
 
     def _save_selected__add_file_names(self):
         self.frame__save_selected__add_file_names = ttk.Frame(self.root)
-        self.frame__save_selected__add_file_names.config(height=50, width=400 )
+        self.frame__save_selected__add_file_names.config(height=50, width=400)
 
-        self.save_selected = ttk.Button(self.frame__save_selected__add_file_names, text="Zapisz zaznaczone",
-                                                       command= lambda: self.function_save_selected(self.full_list_reserch_patch_files))
+        self.save_selected = ttk.Button(
+            self.frame__save_selected__add_file_names,
+            text="Zapisz zaznaczone",
+            command=lambda: self.function_save_selected(self.full_list_reserch_patch_files))
 
         self.save_selected .grid(row=0, column=0, padx=0, pady=10)
         self.save_selected .state(['!disabled'])
 
         self.Var_save_selected = tkk.IntVar(value=0)
-        self.button_save_selected = ttk.Checkbutton(self.frame__save_selected__add_file_names, text='dodać nazwe plków??')
+        self.button_save_selected = ttk.Checkbutton(
+            self.frame__save_selected__add_file_names,
+            text='dodać nazwę plików??')
         self.button_save_selected.state((['!disabled']))
 
         self.button_save_selected.grid(row=0, column=2, padx=30, pady=10)
-        self.button_save_selected.config(variable=self.Var_save_selected, onvalue=1,
-                                 offvalue=0)
-
+        self.button_save_selected.config(variable=self.Var_save_selected, onvalue=1, offvalue=0)
 
     def display_input(self):
         if self.checkbuttonFrame_purpureVar.get() == '1':
             self.save_all_purpure_Frame.state(['disabled'])
             self.frame_black.pack()
-            self.frame_yelow.pack()
+            self.frame_yellow.pack()
             self.frame__save_selected__add_file_names.pack()
 
         else:
             self.frame_black.forget()
-            self.frame_yelow.forget()
+            self.frame_yellow.forget()
             self.frame__save_selected__add_file_names.forget()
             self.save_all_purpure_Frame.state(['!disabled'])
 
-    def refresh_frame_yelow(self, *args):
+    def refresh_frame_yellow(self, *args):
         self.create_text_in_entries(self.full_list_reserch_patch_files)
         self.save_all_purpure_Frame.state(['disabled'])
 
+
 def main():
     gui_Obiect = Gui()
-    tkk.mainloop()
+    gui_Obiect.root.mainloop()
 
 
-if __name__ == "__main__": main()
+if __name__ == "__main__":
+    main()
