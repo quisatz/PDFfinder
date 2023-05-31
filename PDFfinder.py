@@ -24,18 +24,20 @@ from math import floor
 from tkinter import ttk, filedialog, messagebox, Menu
 import tkinter as tkk
 
+from gui import menubar
 
-class Gui:
+
+class Gui(tkk.Tk):
 
     def __init__(self):
-        self.root = tkk.Tk()
+        super().__init__()
 
         self.search = ''
 
         self.scaleW_value = tkk.IntVar(value=20)
         self.scaleW_value.trace_add('write', self.refresh_frame_yellow)
 
-        self.entry_searchVar = tkk.StringVar(self.root)
+        self.entry_searchVar = tkk.StringVar(self)
         self.entry_searchVar.trace_add('write', self.entry_not_empty)
 
         self.widgets_results = []
@@ -43,18 +45,18 @@ class Gui:
         width_of_window = 1200
         height_of_window = 700
 
-        screen_width = self.root.winfo_screenwidth()
-        screen_height = self.root.winfo_screenheight()
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
         x_coordinate = (screen_width / 2) - (width_of_window / 2)
         y_coordinate = (screen_height / 2) - (height_of_window / 2)
-        self.root.geometry("%dx%d+%d+%d" % (width_of_window, height_of_window, x_coordinate, y_coordinate))
+        self.geometry("%dx%d+%d+%d" % (width_of_window, height_of_window, x_coordinate, y_coordinate))
 
-        self._create_menubar()
+        menubar.create_menubar(self)
         self._create_green_frame()
         self._create_purpure_frame()
 
-        self.frame_black = ttk.Frame(self.root)
-        self.frame_yellow = ttk.Frame(self.root)
+        self.frame_black = ttk.Frame(self)
+        self.frame_yellow = ttk.Frame(self)
 
         self._save_selected__add_file_names()
         self.no_results_found()
@@ -177,7 +179,7 @@ class Gui:
         file.close()
 
     def _scrollbar(self):
-        self.main_frame = tkk.Frame(self.root)
+        self.main_frame = tkk.Frame(self)
         self.main_frame.pack(fill=tkk.BOTH, expand=1)
 
         self.main_canvas = tkk.Canvas(self.main_frame)
@@ -195,143 +197,8 @@ class Gui:
 
         self.main_canvas.create_window((0, 0), window=self.top_frame, anchor="nw")
 
-    def _create_menubar(self):
-        self.menubar = tkk.Menu(self.root)
-        self.root.configure(menu=self.menubar)
-
-        file = Menu(self.menubar, tearoff=0)
-        tools = Menu(self.menubar, tearoff=0)
-        help_ = Menu(self.menubar, tearoff=0)
-
-        self.menubar.add_cascade(menu=file, label='Plik')
-        self.menubar.add_cascade(menu=tools, label='Narzędzia')
-        self.menubar.add_cascade(menu=help_, label='Pomoc')
-
-        file.add_command(label='Nowe szukanie', command=self.new_search)
-        file.add_separator()
-
-        file.add_command(label='Wyjście', command=self.root.destroy)
-
-        design = Menu(tools, tearoff=0)
-        tools.add_cascade(menu=design, label='Wygląd')
-        design.add_command(label='Jasny', command=lambda: print('Saving As...'))
-        design.add_command(label='Ciemny', command=lambda: print('Saving All...'))
-
-        language = Menu(tools, tearoff=0)
-        tools.add_cascade(menu=language, label='Język')
-        language.add_command(label='Polski', command=lambda: print('Saving As...'))
-        language.add_command(label='English', command=lambda: print('Saving All...'))
-
-        help_.add_command(label='Wyślij opinię', command=lambda: self.send_feedback())
-        help_.add_command(label='Pomoc', command=lambda: print('Opening File...'))
-        help_.add_separator()
-        help_.add_command(label='PDF finder - info', command=lambda: self.PDF_finder_info())
-
-    def send_feedback(self):
-        bg_color = '#0088FF'
-        window2 = tkk.Toplevel(self.root, bg=bg_color)
-        window2.grab_set()
-        window2.title('wyślij opinię')
-
-        window2.title('Feedback')
-        window2.resizable(False, False)
-
-        window2.configure(bg=bg_color)
-
-        self.frame_header = ttk.Frame(window2)
-        self.frame_header.pack()
-
-        self.frame_header.style = ttk.Style()
-        self.frame_header.style.configure('TFrame', background='#0088FF')
-        self.frame_header.style.configure('TButton', background='#0088FF')
-        self.frame_header.style.configure('TLabel', background='#0088FF', font=('Arial', 10))
-        self.frame_header.style.configure('Header.TLabel', font=('Arial', 14))
-
-        self.logo = tkk.PhotoImage(file='logoOpnie.png')
-        ttk.Label(self.frame_header, image=self.logo).grid(row=0, column=0, rowspan=2)
-        ttk.Label(self.frame_header, text='Zostaw swoją opinię.', style='Header.TLabel', background=bg_color).grid(
-            row=0, column=1)
-
-        self.frame_content = ttk.Frame(window2)
-        self.frame_content.pack()
-
-        ttk.Label(self.frame_content, text='Name:').grid(row=0, column=0, padx=5, sticky='sw')
-        ttk.Label(self.frame_content, text='Email:').grid(row=0, column=1, padx=5, sticky='sw')
-        ttk.Label(self.frame_content, text='Comments:').grid(row=2, column=0, padx=5, sticky='sw')
-
-        self.entry_name = ttk.Entry(self.frame_content, width=24, font=('Arial', 10), background=bg_color)
-        self.entry_email = ttk.Entry(self.frame_content, width=24, font=('Arial', 10), background=bg_color)
-        self.text_comments = tkk.Text(self.frame_content, width=50, height=10, font=('Arial', 10), background=bg_color)
-
-        self.entry_name.grid(row=1, column=0, padx=5)
-        self.entry_email.grid(row=1, column=1, padx=5)
-        self.text_comments.grid(row=3, column=0, columnspan=2, padx=5)
-
-        ttk.Button(self.frame_content, text='Submit',
-                   command=self.submit).grid(row=4, column=0, padx=5, pady=5, sticky='e')
-        ttk.Button(self.frame_content, text='Clear',
-                   command=self.clear).grid(row=4, column=1, padx=5, pady=5, sticky='w')
-
-    def submit(self):
-        print('Name: {}'.format(self.entry_name.get()))
-        print('Email: {}'.format(self.entry_email.get()))
-        print('Comments: {}'.format(self.text_comments.get(1.0, 'end')))
-        self.clear()
-        messagebox.showinfo(title='Feedback', message='Comments Submitted!')
-
-    def clear(self):
-        self.entry_name.delete(0, 'end')
-        self.entry_email.delete(0, 'end')
-        self.text_comments.delete(1.0, 'end')
-
-    def PDF_finder_info(self):
-        window = tkk.Toplevel(self.root)  # tworze nowe okno ktore jest dzieckiem root
-        window.title('PDF finder info')  # nazwa okna
-
-        window_width = self.root.winfo_reqwidth()
-        window_height = self.root.winfo_reqheight()
-        position_right = int(self.root.winfo_screenwidth() / 2 - window_width / 2)
-        position_down = int(self.root.winfo_screenheight() / 2 - window_height / 2)
-        window.geometry("+{}+{}".format(position_right, position_down))
-
-        window.resizable(False, False)
-        self.label = tkk.Label(window, width=5)
-        self.label2 = tkk.Label(window, width=5)
-        self.label2 = tkk.Label(window, width=5)
-        self.label3 = tkk.Label(window, width=5)
-        self.label4 = tkk.Label(window, width=5)
-        self.label5 = tkk.Label(window, width=5)
-
-        ttk.Label(window, text='PdfFinder ver 1.0 (x64):').grid(row=1, column=1, padx=10, pady=5, sticky='sw')
-        ttk.Label(window, text='Copyright (c) Borys Gołębiowski:').grid(row=2, column=1, padx=10, sticky='sw')
-
-        ttk.Label(window, image=self.logo).grid(row=2, column=2, rowspan=2)
-
-        ttk.Label(window, text='You can find me on:').grid(row=3, column=1, padx=10, pady=5, sticky='sw')
-
-        link1 = ttk.Label(window, text='Facebook:', cursor="hand2")
-        link1.grid(row=4, column=1, padx=10, pady=10, sticky='sw')
-        link1.bind("<Button-1>", lambda e: self.callback("https://www.facebook.com/NathanCelina"))
-
-        link2 = ttk.Label(window, text='Linkedin', cursor="hand2")
-        link2.grid(row=5, column=1, padx=10, pady=10, sticky='sw')
-        link2.bind("<Button-1>",
-                   lambda e: self.callback("https://www.linkedin.com/in/borys-go%C5%82%C4%99biowski-02b883158/"))
-
-        link3 = ttk.Label(window, text='Email', cursor="hand2")
-        link3.grid(row=6, column=1, pady=10, padx=10, sticky='sw')
-        link3.bind("<Button-1>", lambda e: self.callback("mailto:borysgolebiowskipl@gmail.com"))
-
-        button_window = ttk.Button(window, text="Copy email")
-        button_window.grid(row=6, column=2, sticky='sw')
-
-        ttk.Label(window, text='PdfFinder jest programem darmowym').grid(row=7, column=1, padx=10, pady=30, sticky='sw')
-
     def pyperclip_function(self):
         return pyperclip.copy('borysgolebiowskipl@gmail.com')
-
-    def callback(self, url):
-        webbrowser.open_new(url)
 
     def open_folder(self):
         self.open_action = filedialog.askdirectory()
@@ -435,7 +302,7 @@ class Gui:
 
     def _create_green_frame(self):
 
-        self.frame_green = ttk.Frame(self.root)
+        self.frame_green = ttk.Frame(self)
         self.frame_green.config(height=100, width=400 , ) #relief=tkk.SUNKEN,
 
         ttk.Label(self.frame_green, text='Wybierz pliki/pliki lub folder do przeszukania', font=('Arial', 12)).grid(
@@ -473,7 +340,7 @@ class Gui:
         self.frame_green.pack()
 
     def _create_purpure_frame(self):
-        self.frame_purpure = ttk.Frame(self.root)
+        self.frame_purpure = ttk.Frame(self)
 #        self.frame_purpure.config(relief=tkk.SUNKEN)  # relief=tkk.SUNKEN,
         self.frame_purpure.pack()
 
@@ -521,7 +388,7 @@ class Gui:
             for result in file[:-1]:
                 result_no += 1
                 for field_no in range(int(self.scaleW_value.get())):
-                    widgets = {'entry_str': tkk.StringVar(self.root)}
+                    widgets = {'entry_str': tkk.StringVar(self)}
                     if field_no < len(result):
                         widgets['entry_str'].set(result[field_no])
 
@@ -564,13 +431,13 @@ class Gui:
         self.button_search.state((['!disabled']))
 
     def no_results_found(self):
-        self.frame_no_results_found = ttk.Frame(self.root)
+        self.frame_no_results_found = ttk.Frame(self)
         self.frame_no_results_found.config(height=50, width=400)
         nothing = ttk.Label(self.frame_no_results_found, text='Nie znaleziono żadnych wyników!', font=('Arial', 20))
         nothing.grid(row=5, column=0, pady=50, padx=100, columnspan=2)
 
     def _save_selected__add_file_names(self):
-        self.frame__save_selected__add_file_names = ttk.Frame(self.root)
+        self.frame__save_selected__add_file_names = ttk.Frame(self)
         self.frame__save_selected__add_file_names.config(height=50, width=400)
 
         self.save_selected = ttk.Button(
@@ -610,7 +477,7 @@ class Gui:
 
 def main():
     gui_Obiect = Gui()
-    gui_Obiect.root.mainloop()
+    gui_Obiect.mainloop()
 
 
 if __name__ == "__main__":
