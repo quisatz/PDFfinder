@@ -27,17 +27,17 @@ import tkinter as tkk
 from gui import menubar
 
 
-class Gui:
+class Gui(tkk.Tk):
 
     def __init__(self):
-        self.root = tkk.Tk()
+        super().__init__()
 
         self.search = ''
 
         self.scaleW_value = tkk.IntVar(value=20)
         self.scaleW_value.trace_add('write', self.refresh_frame_yellow)
 
-        self.entry_searchVar = tkk.StringVar(self.root)
+        self.entry_searchVar = tkk.StringVar(self)
         self.entry_searchVar.trace_add('write', self.entry_not_empty)
 
         self.widgets_results = []
@@ -45,18 +45,18 @@ class Gui:
         width_of_window = 1200
         height_of_window = 700
 
-        screen_width = self.root.winfo_screenwidth()
-        screen_height = self.root.winfo_screenheight()
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
         x_coordinate = (screen_width / 2) - (width_of_window / 2)
         y_coordinate = (screen_height / 2) - (height_of_window / 2)
-        self.root.geometry("%dx%d+%d+%d" % (width_of_window, height_of_window, x_coordinate, y_coordinate))
+        self.geometry("%dx%d+%d+%d" % (width_of_window, height_of_window, x_coordinate, y_coordinate))
 
         menubar.create_menubar(self)
         self._create_green_frame()
         self._create_purpure_frame()
 
-        self.frame_black = ttk.Frame(self.root)
-        self.frame_yellow = ttk.Frame(self.root)
+        self.frame_black = ttk.Frame(self)
+        self.frame_yellow = ttk.Frame(self)
 
         self._save_selected__add_file_names()
         self.no_results_found()
@@ -179,7 +179,7 @@ class Gui:
         file.close()
 
     def _scrollbar(self):
-        self.main_frame = tkk.Frame(self.root)
+        self.main_frame = tkk.Frame(self)
         self.main_frame.pack(fill=tkk.BOTH, expand=1)
 
         self.main_canvas = tkk.Canvas(self.main_frame)
@@ -305,7 +305,7 @@ class Gui:
 
     def _create_green_frame(self):
 
-        self.frame_green = ttk.Frame(self.root)
+        self.frame_green = ttk.Frame(self)
         self.frame_green.config(height=100, width=400 , ) #relief=tkk.SUNKEN,
 
         ttk.Label(self.frame_green, text='Wybierz pliki/pliki lub folder do przeszukania', font=('Arial', 12)).grid(
@@ -343,7 +343,7 @@ class Gui:
         self.frame_green.pack()
 
     def _create_purpure_frame(self):
-        self.frame_purpure = ttk.Frame(self.root)
+        self.frame_purpure = ttk.Frame(self)
 #        self.frame_purpure.config(relief=tkk.SUNKEN)  # relief=tkk.SUNKEN,
         self.frame_purpure.pack()
 
@@ -391,7 +391,7 @@ class Gui:
             for result in file[:-1]:
                 result_no += 1
                 for field_no in range(int(self.scaleW_value.get())):
-                    widgets = {'entry_str': tkk.StringVar(self.root)}
+                    widgets = {'entry_str': tkk.StringVar(self)}
                     if field_no < len(result):
                         widgets['entry_str'].set(result[field_no])
 
@@ -434,13 +434,13 @@ class Gui:
         self.button_search.state((['!disabled']))
 
     def no_results_found(self):
-        self.frame_no_results_found = ttk.Frame(self.root)
+        self.frame_no_results_found = ttk.Frame(self)
         self.frame_no_results_found.config(height=50, width=400)
         nothing = ttk.Label(self.frame_no_results_found, text='Nie znaleziono żadnych wyników!', font=('Arial', 20))
         nothing.grid(row=5, column=0, pady=50, padx=100, columnspan=2)
 
     def _save_selected__add_file_names(self):
-        self.frame__save_selected__add_file_names = ttk.Frame(self.root)
+        self.frame__save_selected__add_file_names = ttk.Frame(self)
         self.frame__save_selected__add_file_names.config(height=50, width=400)
 
         self.save_selected = ttk.Button(
@@ -480,7 +480,7 @@ class Gui:
 
 def main():
     gui_Obiect = Gui()
-    gui_Obiect.root.mainloop()
+    gui_Obiect.mainloop()
 
 
 if __name__ == "__main__":

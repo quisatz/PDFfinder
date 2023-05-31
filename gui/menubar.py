@@ -5,8 +5,8 @@ from gui import feedback
 from gui import info
 
 def create_menubar(self):
-    self.menubar = tkk.Menu(self.root)
-    self.root.configure(menu=self.menubar)
+    self.menubar = tkk.Menu(self)
+    self.configure(menu=self.menubar)
 
     file = Menu(self.menubar, tearoff=0)
     tools = Menu(self.menubar, tearoff=0)
@@ -19,7 +19,7 @@ def create_menubar(self):
     file.add_command(label='Nowe szukanie', command=self.new_search)
     file.add_separator()
 
-    file.add_command(label='Wyjście', command=self.root.destroy)
+    file.add_command(label='Wyjście', command=self.destroy)
 
     design = Menu(tools, tearoff=0)
     tools.add_cascade(menu=design, label='Wygląd')

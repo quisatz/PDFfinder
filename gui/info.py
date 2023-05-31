@@ -3,13 +3,13 @@ from tkinter import ttk
 
 
 def PDF_finder_info(self):
-    window = tkk.Toplevel(self.root)  # tworze nowe okno ktore jest dzieckiem root
+    window = tkk.Toplevel(self)  # tworze nowe okno ktore jest dzieckiem root
     window.title('PDF finder info')  # nazwa okna
 
-    window_width = self.root.winfo_reqwidth()
-    window_height = self.root.winfo_reqheight()
-    position_right = int(self.root.winfo_screenwidth() / 2 - window_width / 2)
-    position_down = int(self.root.winfo_screenheight() / 2 - window_height / 2)
+    window_width = self.winfo_reqwidth()
+    window_height = self.winfo_reqheight()
+    position_right = int(self.winfo_screenwidth() / 2 - window_width / 2)
+    position_down = int(self.winfo_screenheight() / 2 - window_height / 2)
     window.geometry("+{}+{}".format(position_right, position_down))
 
     window.resizable(False, False)

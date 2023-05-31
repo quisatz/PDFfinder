@@ -4,7 +4,7 @@ from tkinter import ttk, messagebox
 
 def send_feedback(self):
     bg_color = '#0088FF'
-    window2 = tkk.Toplevel(self.root, bg=bg_color)
+    window2 = tkk.Toplevel(self, bg=bg_color)
     window2.grab_set()
     window2.title('wyślij opinię')
 
