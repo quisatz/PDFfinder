@@ -1,6 +1,6 @@
 import tkinter as tkk
 from tkinter import ttk
-
+from webbrowser import open_new
 
 class PDFFinderInfo(tkk.Toplevel):
     def __init__(self, master, *args, **kwargs):
@@ -26,16 +26,16 @@ class PDFFinderInfo(tkk.Toplevel):
 
         link1 = ttk.Label(self, text='Facebook:', cursor="hand2")
         link1.grid(row=4, column=1, padx=10, pady=10, sticky='sw')
-        link1.bind("<Button-1>", lambda e: master.callback("https://www.facebook.com/NathanCelina"))
+        link1.bind("<Button-1>", lambda e: open_new("https://www.facebook.com/NathanCelina"))
 
         link2 = ttk.Label(self, text='Linkedin', cursor="hand2")
         link2.grid(row=5, column=1, padx=10, pady=10, sticky='sw')
         link2.bind("<Button-1>",
-                   lambda e: master.callback("https://www.linkedin.com/in/borys-go%C5%82%C4%99biowski-02b883158/"))
+                   lambda e: open_new("https://www.linkedin.com/in/borys-go%C5%82%C4%99biowski-02b883158/"))
 
         link3 = ttk.Label(self, text='Email', cursor="hand2")
         link3.grid(row=6, column=1, pady=10, padx=10, sticky='sw')
-        link3.bind("<Button-1>", lambda e: master.callback("mailto:borysgolebiowskipl@gmail.com"))
+        link3.bind("<Button-1>", lambda e: open_new("mailto:borysgolebiowskipl@gmail.com"))
 
         button_window = ttk.Button(self, text="Copy email")
         button_window.grid(row=6, column=2, sticky='sw')

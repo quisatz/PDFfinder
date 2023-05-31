@@ -200,9 +200,6 @@ class Gui(tkk.Tk):
     def pyperclip_function(self):
         return pyperclip.copy('borysgolebiowskipl@gmail.com')
 
-    def callback(self, url):
-        webbrowser.open_new(url)
-
     def open_folder(self):
         self.open_action = filedialog.askdirectory()
         if self.open_action:
