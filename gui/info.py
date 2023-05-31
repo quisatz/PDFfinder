@@ -24,7 +24,8 @@ class PDFFinderInfo(tkk.Toplevel):
         ttk.Label(self, text='PdfFinder ver 1.0 (x64):').grid(row=1, column=1, padx=10, pady=5, sticky='sw')
         ttk.Label(self, text='Copyright (c) Borys Gołębiowski:').grid(row=2, column=1, padx=10, sticky='sw')
 
-        ttk.Label(self, image=master.logo).grid(row=2, column=2, rowspan=2)
+        self.logo = tkk.PhotoImage(file='logoOpnie.png')
+        ttk.Label(self, image=self.logo).grid(row=2, column=2, rowspan=2)
 
         ttk.Label(self, text='You can find me on:').grid(row=3, column=1, padx=10, pady=5, sticky='sw')
 
