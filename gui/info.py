@@ -5,13 +5,8 @@ from tkinter import ttk
 class PDFFinderInfo(tkk.Toplevel):
     def __init__(self, master, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
+        self.withdraw()
         self.title('PDF finder info')
-
-        window_width = master.winfo_reqwidth()
-        window_height = master.winfo_reqheight()
-        position_right = int(master.winfo_screenwidth() / 2 - window_width / 2)
-        position_down = int(master.winfo_screenheight() / 2 - window_height / 2)
-        self.geometry("+{}+{}".format(position_right, position_down))
 
         self.resizable(False, False)
         self.label = tkk.Label(self, width=5)
@@ -46,3 +41,14 @@ class PDFFinderInfo(tkk.Toplevel):
         button_window.grid(row=6, column=2, sticky='sw')
 
         ttk.Label(self, text='PdfFinder jest programem darmowym').grid(row=7, column=1, padx=10, pady=30, sticky='sw')
+
+        self.update_idletasks()
+        self.center_window_position()
+        self.deiconify()
+
+    def center_window_position(self):
+        window_width = self.winfo_reqwidth()
+        window_height = self.winfo_reqheight()
+        position_right = int(self.winfo_screenwidth() / 2 - window_width / 2)
+        position_down = int(self.winfo_screenheight() / 2 - window_height / 2)
+        self.geometry("+{}+{}".format(position_right, position_down))
