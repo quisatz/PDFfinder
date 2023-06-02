@@ -1,6 +1,8 @@
 import tkinter as tkk
 from tkinter import ttk
 from webbrowser import open_new
+import pyperclip
+
 
 class PDFFinderInfo(tkk.Toplevel):
     def __init__(self, master, *args, **kwargs):
@@ -39,6 +41,7 @@ class PDFFinderInfo(tkk.Toplevel):
 
         button_window = ttk.Button(self, text="Copy email")
         button_window.grid(row=6, column=2, sticky='sw')
+        button_window.bind("<Button-1>", lambda e: pyperclip.copy('borysgolebiowskipl@gmail.com'))
 
         ttk.Label(self, text='PdfFinder jest programem darmowym').grid(row=7, column=1, padx=10, pady=30, sticky='sw')
 
@@ -52,3 +55,14 @@ class PDFFinderInfo(tkk.Toplevel):
         position_right = int(self.winfo_screenwidth() / 2 - window_width / 2)
         position_down = int(self.winfo_screenheight() / 2 - window_height / 2)
         self.geometry("+{}+{}".format(position_right, position_down))
+
+
+if __name__ == '__main__':
+    import os
+    import tkinter as tk
+
+    os.chdir("../")
+
+    root = tk.Tk()
+    feedback = PDFFinderInfo(root)
+    root.mainloop()

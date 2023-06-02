@@ -16,8 +16,6 @@ do zrobienia pisane 27.05.2023:
 
 import os
 import pdfplumber
-import pyperclip
-import webbrowser
 import fnmatch
 
 from math import floor
@@ -196,9 +194,6 @@ class Gui(tkk.Tk):
         self.top_frame = tkk.Frame(self.main_canvas)
 
         self.main_canvas.create_window((0, 0), window=self.top_frame, anchor="nw")
-
-    def pyperclip_function(self):
-        return pyperclip.copy('borysgolebiowskipl@gmail.com')
 
     def open_folder(self):
         self.open_action = filedialog.askdirectory()
