@@ -23,7 +23,7 @@ from tkinter import ttk, filedialog
 import tkinter as tkk
 
 from gui.menubar import Menubar
-
+from gui.frames.no_results_found import FrameNoResultsFound
 
 class Gui(tkk.Tk):
 
@@ -57,7 +57,7 @@ class Gui(tkk.Tk):
         self.frame_yellow = ttk.Frame(self)
 
         self._save_selected__add_file_names()
-        self.no_results_found()
+        self.frame_no_results_found = FrameNoResultsFound(self)
 
     def new_search(self, *args):
         self.full_list_reserch_patch_files = []
@@ -424,12 +424,6 @@ class Gui(tkk.Tk):
         print('ik:', self.ik)
 
         self.button_search.state((['!disabled']))
-
-    def no_results_found(self):
-        self.frame_no_results_found = ttk.Frame(self)
-        self.frame_no_results_found.config(height=50, width=400)
-        nothing = ttk.Label(self.frame_no_results_found, text='Nie znaleziono żadnych wyników!', font=('Arial', 20))
-        nothing.grid(row=5, column=0, pady=50, padx=100, columnspan=2)
 
     def _save_selected__add_file_names(self):
         self.frame__save_selected__add_file_names = ttk.Frame(self)
