@@ -22,7 +22,7 @@ from math import floor
 from tkinter import ttk, filedialog, messagebox, Menu
 import tkinter as tkk
 
-from gui import menubar
+from gui.menubar import Menubar
 
 
 class Gui(tkk.Tk):
@@ -49,7 +49,7 @@ class Gui(tkk.Tk):
         y_coordinate = (screen_height / 2) - (height_of_window / 2)
         self.geometry("%dx%d+%d+%d" % (width_of_window, height_of_window, x_coordinate, y_coordinate))
 
-        menubar.create_menubar(self)
+        self.menubar = Menubar(self)
         self._create_green_frame()
         self._create_purpure_frame()
 
