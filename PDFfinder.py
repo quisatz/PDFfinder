@@ -19,7 +19,7 @@ import pdfplumber
 import fnmatch
 
 from math import floor
-from tkinter import ttk, filedialog, messagebox, Menu
+from tkinter import ttk, filedialog
 import tkinter as tkk
 
 from gui.menubar import Menubar
@@ -51,7 +51,7 @@ class Gui(tkk.Tk):
 
         self.menubar = Menubar(self)
         self._create_green_frame()
-        self._create_purpure_frame()
+        self._create_purple_frame()
 
         self.frame_black = ttk.Frame(self)
         self.frame_yellow = ttk.Frame(self)
@@ -64,7 +64,7 @@ class Gui(tkk.Tk):
         self.widgets_results = []
         self.uppercaseVar.set("0")
         self.entry_searchVar.set("")
-        self.checkbuttonFrame_purpureVar.set("0")
+        self.checkbuttonFrame_purpleVar.set("0")
         self.Var_save_selected.set(0)
         self.button_folder.state((['!disabled']))
         self.button_folder.state((['!disabled']))
@@ -73,7 +73,7 @@ class Gui(tkk.Tk):
         self.frame_black.forget()
         self.frame_no_results_found.forget()
         self.advanced.state((['disabled']))
-        self.save_all_purpure_Frame.state(['disabled'])
+        self.save_all_purple_Frame.state(['disabled'])
         self.entry_search.state((['disabled']))
         self.button_search.state(['disabled'])
         self.ignore_case.state(['disabled'])
@@ -219,7 +219,7 @@ class Gui(tkk.Tk):
             self.frame_no_results_found.forget()
             self._create__yellow_frame(full_list_reserch_patch_files)
             self.advanced.state((['!disabled']))
-            self.save_all_purpure_Frame.state(['!disabled'])
+            self.save_all_purple_Frame.state(['!disabled'])
             self.entry_search.state((['disabled']))
             self.button_search.state(['disabled'])
             self.ignore_case.state(['disabled'])
@@ -334,30 +334,30 @@ class Gui(tkk.Tk):
         self.button_search.state(['disabled'])
         self.frame_green.pack()
 
-    def _create_purpure_frame(self):
-        self.frame_purpure = ttk.Frame(self)
-#        self.frame_purpure.config(relief=tkk.SUNKEN)  # relief=tkk.SUNKEN,
-        self.frame_purpure.pack()
+    def _create_purple_frame(self):
+        self.frame_purple = ttk.Frame(self)
+#        self.frame_purple.config(relief=tkk.SUNKEN)  # relief=tkk.SUNKEN,
+        self.frame_purple.pack()
 
-        self.canvas = tkk.Canvas(self.frame_purpure)  # tworze płótno
+        self.canvas = tkk.Canvas(self.frame_purple)  # tworze płótno
         self.canvas.config(height=30)
         self.canvas.create_line(0, 30, 10000, 30, fill='black', width=2)
         self.canvas.pack()
 
-        self.checkbuttonFrame_purpureVar = tkk.StringVar(value='0')
+        self.checkbuttonFrame_purpleVar = tkk.StringVar(value='0')
 
-        self.advanced = ttk.Checkbutton(self.frame_purpure, text='zaawansowane?')  # kwadrat do zaznaczenia
+        self.advanced = ttk.Checkbutton(self.frame_purple, text='zaawansowane?')  # kwadrat do zaznaczenia
         self.advanced.state((['disabled']))
         self.advanced.pack(side=tkk.TOP, anchor='nw')
-        self.advanced.config(variable=self.checkbuttonFrame_purpureVar, onvalue=1,
+        self.advanced.config(variable=self.checkbuttonFrame_purpleVar, onvalue=1,
                              offvalue=0, command=self.display_input)  # display_input pack okna
 
-        ttk.Label(self.frame_purpure, text='', font=('Arial', 8)).pack(pady=20)
+        ttk.Label(self.frame_purple, text='', font=('Arial', 8)).pack(pady=20)
 
-        self.save_all_purpure_Frame = ttk.Button(self.frame_purpure, text="Zapisz wszyskie",
+        self.save_all_purple_Frame = ttk.Button(self.frame_purple, text="Zapisz wszyskie",
                                                  command=lambda: self.save_file(self.full_list_reserch_patch_files))
-        self.save_all_purpure_Frame.pack(side=tkk.TOP, )
-        self.save_all_purpure_Frame.state(['disabled'])
+        self.save_all_purple_Frame.pack(side=tkk.TOP, )
+        self.save_all_purple_Frame.state(['disabled'])
 
     def _create__yellow_frame(self, list_full_search_results_from_path):
         self.button_search.state((['disabled']))
@@ -453,8 +453,8 @@ class Gui(tkk.Tk):
         self.button_save_selected.config(variable=self.Var_save_selected, onvalue=1, offvalue=0)
 
     def display_input(self):
-        if self.checkbuttonFrame_purpureVar.get() == '1':
-            self.save_all_purpure_Frame.state(['disabled'])
+        if self.checkbuttonFrame_purpleVar.get() == '1':
+            self.save_all_purple_Frame.state(['disabled'])
             self.frame_black.pack()
             self.frame_yellow.pack()
             self.frame__save_selected__add_file_names.pack()
@@ -463,16 +463,16 @@ class Gui(tkk.Tk):
             self.frame_black.forget()
             self.frame_yellow.forget()
             self.frame__save_selected__add_file_names.forget()
-            self.save_all_purpure_Frame.state(['!disabled'])
+            self.save_all_purple_Frame.state(['!disabled'])
 
     def refresh_frame_yellow(self, *args):
         self.create_text_in_entries(self.full_list_reserch_patch_files)
-        self.save_all_purpure_Frame.state(['disabled'])
+        self.save_all_purple_Frame.state(['disabled'])
 
 
 def main():
-    gui_Obiect = Gui()
-    gui_Obiect.mainloop()
+    gui_object = Gui()
+    gui_object.mainloop()
 
 
 if __name__ == "__main__":
