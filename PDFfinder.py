@@ -12,11 +12,11 @@ do zrobienia pisane 27.05.2023:
 12. Kontorla przez K. Lemka
 
 '''
-# from pathlib import Path
-
 import os
 import pdfplumber
 import fnmatch
+
+import pandas as pd
 
 from math import floor
 from tkinter import ttk, filedialog
@@ -84,6 +84,20 @@ class Gui(tkk.Tk):
         else:
             self.button_search.state(['disabled'])
 
+    def is_xlsx(self ,file):
+        if file.name.split('.')[-1] == 'xlsx':
+
+            data = self.full_txt
+            read_file = pd.DataFrame([x.split(';') for x in data.split('\n')])
+
+            read_file.to_excel(file.name, index=False, header=False)
+
+            file.close()
+        else:
+            file.write(self.full_txt)
+            file.close()
+
+
     def save_file(self, listen, mark=0):
         self.full_txt = ''
 
@@ -104,21 +118,14 @@ class Gui(tkk.Tk):
                 ("Text file", ".txt"),
                 ("CSV file", ".csv"),
                 ("HTML file", ".html"),
-                ("All files", ".*"),
+                ("xlsx", ".xlsx"),
             ])
 
         if file is None:
             return
 
-###############  html code generator
+        self.is_xlsx(file)
 
-###HTML
-        if file.name.split('.')[-1] == 'html':
-            print('TEST: is html')
-            ##### insert the code to generate the tables in html here
-
-        file.write(self.full_txt)
-        file.close()
 
     def function_save_selected(self, listen):
         self.list_selection = []
@@ -161,20 +168,12 @@ class Gui(tkk.Tk):
                 ("Text file", ".txt"),
                 ("CSV file", ".csv"),
                 ("HTML file", ".html"),
-                ("All files", ".*"),
+                ("xlsx", ".xlsx"),
             ])
         if file is None:
             return
 
-        ###############  html code generator
-
-        ###HTML
-        if file.name.split('.')[-1] == 'html':
-            print('is html')
-            ##### insert the code to generate the tables in html here
-
-        file.write(self.full_txt)
-        file.close()
+        self.is_xlsx(file)
 
     def _scrollbar(self):
         self.main_frame = tkk.Frame(self)
@@ -249,7 +248,6 @@ class Gui(tkk.Tk):
                 list_search_result_file = self.engine_search(self.pdf2txt(file))
                 list_search_result_file.append(file)
                 self.full_list_reserch_patch_files.append(list_search_result_file)
-        print('------>return self.full_list_reserch_patch_files', self.full_list_reserch_patch_files)
         return self.full_list_reserch_patch_files
 
     def pdf2txt(self, fill_patch_pdf_file):
@@ -268,8 +266,6 @@ class Gui(tkk.Tk):
         temp_list3 = []
 
         full_txt_from_pdf__split = full_txt_from_pdf.split()
-
-        print('search phrase find as: ', search_phrase)
 
         for idx, elem in enumerate(full_txt_from_pdf__split):
             lista_temp = []
@@ -336,7 +332,6 @@ class Gui(tkk.Tk):
 
     def _create_purple_frame(self):
         self.frame_purple = ttk.Frame(self)
-#        self.frame_purple.config(relief=tkk.SUNKEN)  # relief=tkk.SUNKEN,
         self.frame_purple.pack()
 
         self.canvas = tkk.Canvas(self.frame_purple)  # tworze płótno
@@ -419,9 +414,6 @@ class Gui(tkk.Tk):
 
         self.iw = len(list_full_search_results_from_path[0]) - 1
         self.ik = self.scaleW.get()
-
-        print('iw:', self.iw)
-        print('ik:', self.ik)
 
         self.button_search.state((['!disabled']))
 
