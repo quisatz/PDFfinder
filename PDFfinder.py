@@ -25,11 +25,16 @@ import tkinter as tkk
 from gui.menubar import Menubar
 from gui.frames.no_results_found import FrameNoResultsFound
 
+import glob
+import json
+
 class Gui(tkk.Tk):
 
-    def __init__(self):
+    def __init__(self , lang):
         super().__init__()
 
+        self.lang = lang
+        self.change_lang(lang)
         self.search = ''
 
         self.scaleW_value = tkk.IntVar(value=20)
@@ -58,6 +63,22 @@ class Gui(tkk.Tk):
 
         self._save_selected__add_file_names()
         self.frame_no_results_found = FrameNoResultsFound(self)
+
+    def change_lang(self , language , flag=0):
+        self.languages = {}
+        self.language_list = glob.glob("language/*.json")
+        for lang in self.language_list:
+            filename = lang.split('/')[-1]
+            lang_code = filename.split('.')[0]
+            with open(lang, 'r', encoding='utf8') as file:
+                self.languages[lang_code] = json.loads(file.read())
+        self.languages = self.languages[language]
+
+        print(self.languages)
+        if flag:
+            self.destroy()
+            gui_object = Gui(language)
+        return self.languages
 
     def new_search(self, *args):
         self.full_list_reserch_patch_files = []
@@ -203,7 +224,7 @@ class Gui(tkk.Tk):
 
     def open_file(self):
         self.open_action = filedialog.askopenfilenames(
-            title="Open PDF File",
+            title=self.languages["txt_window_name__screen_open PDF files"],
             filetypes=(
                 ("PDF Files", "*.pdf"),
                 ("All Files", "*.*")))
@@ -294,19 +315,15 @@ class Gui(tkk.Tk):
     def _create_green_frame(self):
 
         self.frame_green = ttk.Frame(self)
-        self.frame_green.config(height=100, width=400 , ) #relief=tkk.SUNKEN,
+        self.frame_green.config(height=100, width=400 , )
+        self.frame_green_label = ttk.Label(self.frame_green,
+                                           text=self.languages["txt_main_screen__select_files_or_folder_to_search"],
+                                           font=('Arial', 12))
+        self.frame_green_label.grid(row=0, column=0, pady=20, padx=100, sticky='sw')
 
-        ttk.Label(self.frame_green, text='Wybierz pliki/pliki lub folder do przeszukania', font=('Arial', 12)).grid(
-            row=0,
-            column=0,
-            pady=20,
-            padx=100,
-            sticky='sw')
-
-        self.button_folder = ttk.Button(self.frame_green, text="Folder", command=self.open_folder)
+        self.button_folder = ttk.Button(self.frame_green, text=self.languages["txt_main_screen__folder"], command=self.open_folder)
         self.button_folder.grid(row=1, column=0, padx=10, pady=0, sticky='sw')
-
-        self.button_files = ttk.Button(self.frame_green, text="Plik", command=self.open_file)
+        self.button_files = ttk.Button(self.frame_green, text=self.languages["txt_main_screen__files"], command=self.open_file)
         self.button_files.grid(row=1, column=0, padx=10, pady=0, sticky='se')
 
         self.entry_search = ttk.Entry(self.frame_green, textvariable=self.entry_searchVar, width=45,
@@ -315,16 +332,16 @@ class Gui(tkk.Tk):
         self.entry_search.state((['disabled']))
 
         self.uppercaseVar = tkk.StringVar(value='0')
-        self.ignore_case = ttk.Checkbutton(self.frame_green, text='ingoruj wielkosc liter?')  # kwadrat do zaznaczenia
+        self.ignore_case = ttk.Checkbutton(self.frame_green, text=self.languages["txt_main_screen__Ignore case"])
         self.ignore_case.grid(row=3, column=0, padx=10, pady=0, columnspan=2, sticky='swe')
         self.ignore_case.config(variable=self.uppercaseVar, onvalue="1",
                                 offvalue="0")
         self.ignore_case.state(['disabled'])
 
-        link5 = ttk.Label(self.frame_green, text='Wpisz fraze szukana', font=('Arial', 8))
+        link5 = ttk.Label(self.frame_green, text=self.languages["txt_main_screen__enter_search_term"], font=('Arial', 8))
         link5.grid(row=5, column=0, pady=0, padx=100, columnspan=2)
         self.wyniki = lambda: self.create_text_in_entries(self.combo(self.open_action))
-        self.button_search = ttk.Button(self.frame_green, text="Szukaj",
+        self.button_search = ttk.Button(self.frame_green, text=self.languages["txt_main_screen__search"],
                                         command=self.wyniki)
         self.button_search.grid(row=6, column=0, padx=10, pady=20, sticky='sw')
         self.button_search.state(['disabled'])
@@ -334,22 +351,22 @@ class Gui(tkk.Tk):
         self.frame_purple = ttk.Frame(self)
         self.frame_purple.pack()
 
-        self.canvas = tkk.Canvas(self.frame_purple)  # tworze płótno
+        self.canvas = tkk.Canvas(self.frame_purple)
         self.canvas.config(height=30)
         self.canvas.create_line(0, 30, 10000, 30, fill='black', width=2)
         self.canvas.pack()
 
         self.checkbuttonFrame_purpleVar = tkk.StringVar(value='0')
 
-        self.advanced = ttk.Checkbutton(self.frame_purple, text='zaawansowane?')  # kwadrat do zaznaczenia
+        self.advanced = ttk.Checkbutton(self.frame_purple, text=self.languages["txt_main_screen__advanced"])
         self.advanced.state((['disabled']))
         self.advanced.pack(side=tkk.TOP, anchor='nw')
         self.advanced.config(variable=self.checkbuttonFrame_purpleVar, onvalue=1,
-                             offvalue=0, command=self.display_input)  # display_input pack okna
+                             offvalue=0, command=self.display_input)
 
         ttk.Label(self.frame_purple, text='', font=('Arial', 8)).pack(pady=20)
 
-        self.save_all_purple_Frame = ttk.Button(self.frame_purple, text="Zapisz wszyskie",
+        self.save_all_purple_Frame = ttk.Button(self.frame_purple, text=self.languages["txt_main_screen__save_all"],
                                                  command=lambda: self.save_file(self.full_list_reserch_patch_files))
         self.save_all_purple_Frame.pack(side=tkk.TOP, )
         self.save_all_purple_Frame.state(['disabled'])
@@ -398,7 +415,7 @@ class Gui(tkk.Tk):
                         row = (result_no - 1) * 4 + 2
                     else:
                         row = (result_no - 1) * 4 + 4
-                    widgets['checkbox'] = ttk.Checkbutton(self.frame_yellow, text='dodać?')
+                    widgets['checkbox'] = ttk.Checkbutton(self.frame_yellow, text=self.languages["txt_main_screen__add"])
                     widgets['checkbox'].config(variable=widgets['checkbox_str'], onvalue='on', offvalue='off')
                     widgets['checkbox'].grid(row=row, column=field_no % 10, padx=0, pady=(0, 20), sticky='n')
 
@@ -407,8 +424,8 @@ class Gui(tkk.Tk):
                 self.widgets_results.append(first_result_widgets)
 
         self.scaleW = tkk.Scale(
-            self.frame_black, from_=10, label='ilość wyszukanych słów po', variable=self.scaleW_value,
-            length=300, to=20, resolution=10,orient=tkk.HORIZONTAL)
+            self.frame_black, from_=10, label=self.languages["txt_main_screen__display_the_number_of_searched_words_by_phrase_on"],
+            variable=self.scaleW_value,length=300, to=20, resolution=10,orient=tkk.HORIZONTAL)
 
         self.scaleW.grid(row=0, column=2, padx=0, pady=20)
 
@@ -423,7 +440,7 @@ class Gui(tkk.Tk):
 
         self.save_selected = ttk.Button(
             self.frame__save_selected__add_file_names,
-            text="Zapisz zaznaczone",
+            text=self.languages["txt_main_screen__save_selected"],
             command=lambda: self.function_save_selected(self.full_list_reserch_patch_files))
 
         self.save_selected .grid(row=0, column=0, padx=0, pady=10)
@@ -432,7 +449,7 @@ class Gui(tkk.Tk):
         self.Var_save_selected = tkk.IntVar(value=0)
         self.button_save_selected = ttk.Checkbutton(
             self.frame__save_selected__add_file_names,
-            text='dodać nazwę plików??')
+            text=self.languages["txt_main_screen__add_file_names"])
         self.button_save_selected.state((['!disabled']))
 
         self.button_save_selected.grid(row=0, column=2, padx=30, pady=10)
@@ -457,7 +474,7 @@ class Gui(tkk.Tk):
 
 
 def main():
-    gui_object = Gui()
+    gui_object = Gui('language\\pl_PL')
     gui_object.mainloop()
 
 
