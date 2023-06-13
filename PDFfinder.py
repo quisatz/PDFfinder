@@ -74,7 +74,6 @@ class Gui(tkk.Tk):
                 self.languages[lang_code] = json.loads(file.read())
         self.languages = self.languages[language]
 
-        print(self.languages)
         if flag:
             self.destroy()
             gui_object = Gui(language)
