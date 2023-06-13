@@ -104,7 +104,7 @@ class Gui(tkk.Tk):
         else:
             self.button_search.state(['disabled'])
 
-    def is_xlsx(self ,file):
+    def save_to_specific_prefix(self, file):
         if file.name.split('.')[-1] == 'xlsx':
 
             data = self.full_txt
@@ -113,6 +113,15 @@ class Gui(tkk.Tk):
             read_file.to_excel(file.name, index=False, header=False)
 
             file.close()
+
+
+        elif file.name.split('.')[-1] == 'html':
+
+            data = self.full_txt[:-1]
+            read_file = pd.DataFrame([x.split(';') for x in data.split('\n')])
+            read_file.to_html(file.name, index=False, header=False)
+            file.close()
+
         else:
             file.write(self.full_txt)
             file.close()
@@ -138,13 +147,13 @@ class Gui(tkk.Tk):
                 ("Text file", ".txt"),
                 ("CSV file", ".csv"),
                 ("HTML file", ".html"),
-                ("xlsx", ".xlsx"),
+                ("Excel", ".xlsx"),
             ])
 
         if file is None:
             return
 
-        self.is_xlsx(file)
+        self.save_to_specific_prefix(file)
 
 
     def function_save_selected(self, listen):
@@ -188,12 +197,12 @@ class Gui(tkk.Tk):
                 ("Text file", ".txt"),
                 ("CSV file", ".csv"),
                 ("HTML file", ".html"),
-                ("xlsx", ".xlsx"),
+                ("Excel", ".xlsx"),
             ])
         if file is None:
             return
 
-        self.is_xlsx(file)
+        self.save_to_specific_prefix(file)
 
     def _scrollbar(self):
         self.main_frame = tkk.Frame(self)
