@@ -323,7 +323,7 @@ class Gui(tkk.Tk):
     def _create_green_frame(self):
 
         self.frame_green = ttk.Frame(self)
-        self.frame_green.config(height=100, width=400 , )
+        self.frame_green.config(height=100, width=400 )
         self.frame_green_label = ttk.Label(self.frame_green,
                                            text=self.languages["txt_main_screen__select_files_or_folder_to_search"],
                                            font=('Arial', 12))
@@ -341,7 +341,7 @@ class Gui(tkk.Tk):
 
         self.uppercaseVar = tkk.StringVar(value='0')
         self.ignore_case = ttk.Checkbutton(self.frame_green, text=self.languages["txt_main_screen__Ignore case"])
-        self.ignore_case.grid(row=3, column=0, padx=10, pady=0, columnspan=2, sticky='swe')
+        self.ignore_case.grid(row=3, column=0, padx=10, pady=(30, 0), columnspan=2, sticky='swe')
         self.ignore_case.config(variable=self.uppercaseVar, onvalue="1",
                                 offvalue="0")
         self.ignore_case.state(['disabled'])

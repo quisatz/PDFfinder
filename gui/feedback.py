@@ -9,7 +9,7 @@ class PDFFinderFeedback(tkk.Toplevel):
         #bg_color = '#0088FF'
 
         self.grab_set()
-
+        self.withdraw()
         self.title(self.short["txt_feedback_screen_feedback"])
         self.resizable(False, False)
 
@@ -49,6 +49,10 @@ class PDFFinderFeedback(tkk.Toplevel):
         ttk.Button(self.frame_content, text=self.short["txt_feedback_screen__clear"],
                    command=self.clear).grid(row=4, column=1, padx=5, pady=5, sticky='w')
 
+        self.update_idletasks()
+        self.center_window_position()
+        self.deiconify()
+
     def submit(self):
         print('Name: {}'.format(self.entry_name.get()))
         print('Email: {}'.format(self.entry_email.get()))
@@ -60,3 +64,10 @@ class PDFFinderFeedback(tkk.Toplevel):
         self.entry_name.delete(0, 'end')
         self.entry_email.delete(0, 'end')
         self.text_comments.delete(1.0, 'end')
+
+    def center_window_position(self):
+        window_width = self.winfo_reqwidth()
+        window_height = self.winfo_reqheight()
+        position_right = int(self.winfo_screenwidth() / 2 - window_width / 2)
+        position_down = int(self.winfo_screenheight() / 2 - window_height / 2)
+        self.geometry("+{}+{}".format(position_right, position_down))
