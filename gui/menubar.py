@@ -25,11 +25,6 @@ class Menubar(tkk.Menu):
 
         file.add_command(label=self.short["txt_menu__exit"], command=self.master.destroy)
 
-        design = Menu(tools, tearoff=0)
-        tools.add_cascade(menu=design, label=self.short["txt_menu__appearance"])
-        design.add_command(label=self.short["txt_menu__light"], command=lambda: print('Saving As...'))
-        design.add_command(label=self.short["txt_menu__dark"], command=lambda: print('Saving All...'))
-
         language = Menu(tools, tearoff=0)
         tools.add_cascade(menu=language, label=self.short["txt_menu__language"])
         language.add_command(label=self.short["txt_menu__polish"], command=lambda: self.master.change_lang('language\\pl_PL' , 1))
