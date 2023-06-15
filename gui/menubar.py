@@ -27,8 +27,8 @@ class Menubar(tkk.Menu):
 
         language = Menu(tools, tearoff=0)
         tools.add_cascade(menu=language, label=self.short["txt_menu__language"])
-        language.add_command(label=self.short["txt_menu__polish"], command=lambda: self.master.change_lang('language\\pl_PL' , 1))
-        language.add_command(label=self.short["txt_menu__english"], command=lambda: self.master.change_lang('language\\en_US' , 1))
+        language.add_command(label=self.short["txt_menu__polish"], command=lambda: self.master.change_lang('pl_PL' , 1))
+        language.add_command(label=self.short["txt_menu__english"], command=lambda: self.master.change_lang('en_US' , 1))
 
         help_.add_command(label=self.short["txt_menu_help__send_feedback"], command=lambda: PDFFinderFeedback(self.master))
         help_.add_command(label=self.short["txt_menu__how_to_use"], command=lambda: print('Opening File...'))

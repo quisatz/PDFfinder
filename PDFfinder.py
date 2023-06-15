@@ -1,12 +1,7 @@
 '''
-do zrobienia pisane 27.05.2023:
+do zrobienia pisane 01.07.2023:
 
-7. stworzenie 4 fukcji exportujacej do pliku z oone wyboru gdzie zapisac wyniki ostateczne z nr5:
-            csv ,
-            html ,
-            excel ,
-8.Podlinkowanie przyciskow z menu do 4 funcji
-+++++++++++++++++++++++++9.Stworzenie funkicji do nowego szukania
+
 10.Zajecie sie problemamy pozosyalych elementow menu
 11.Refactoring
 12. Kontorla przez K. Lemka
@@ -62,22 +57,37 @@ class Gui(tkk.Tk):
         self.frame_yellow = ttk.Frame(self)
 
         self._save_selected__add_file_names()
-        self.frame_no_results_found = FrameNoResultsFound(self)
+        #self.frame_no_results_found = FrameNoResultsFound(self)
 
     def change_lang(self , language , flag=0):
         self.languages = {}
         self.language_list = glob.glob("language/*.json")
         for lang in self.language_list:
+
             filename = lang.split('/')[-1]
             lang_code = filename.split('.')[0]
             with open(lang, 'r', encoding='utf8') as file:
                 self.languages[lang_code] = json.loads(file.read())
-        self.languages = self.languages[language]
+        self.languages = self.languages["language\\" + language]
 
         if flag:
             self.destroy()
             gui_object = Gui(language)
         return self.languages
+
+    def fu_disable(self , flag):
+        self.advanced.state((['disabled']))
+        self.save_all_purple_Frame.state(['disabled'])
+        self.entry_search.state((['disabled']))
+        self.button_search.state(['disabled'])
+        self.ignore_case.state(['disabled'])
+        if flag == 0:
+            self.button_folder.state(['disabled'])
+            self.button_files.state(['disabled'])
+        else:
+            self.button_folder.state(['!disabled'])
+            self.button_files.state(['!disabled'])
+
 
     def new_search(self, *args):
         self.full_list_reserch_patch_files = []
@@ -86,17 +96,15 @@ class Gui(tkk.Tk):
         self.entry_searchVar.set("")
         self.checkbuttonFrame_purpleVar.set("0")
         self.Var_save_selected.set(0)
-        self.button_folder.state((['!disabled']))
-        self.button_folder.state((['!disabled']))
+        self.fu_disable(1)
         self.frame__save_selected__add_file_names.forget()
         self.frame_yellow.forget()
         self.frame_black.forget()
-        self.frame_no_results_found.forget()
-        self.advanced.state((['disabled']))
-        self.save_all_purple_Frame.state(['disabled'])
-        self.entry_search.state((['disabled']))
-        self.button_search.state(['disabled'])
-        self.ignore_case.state(['disabled'])
+        try:
+            self.frame_no_results_found.forget()
+        except AttributeError:
+            pass
+
 
     def entry_not_empty(self, *args):
         if len(self.entry_searchVar.get()) > 2:
@@ -243,19 +251,26 @@ class Gui(tkk.Tk):
 
     def create_text_in_entries(self, full_list_reserch_patch_files):
 
-        if len(self.full_list_reserch_patch_files[0][0]) > 1 and isinstance(self.full_list_reserch_patch_files[0][0], list):
-            self.frame_no_results_found.forget()
-            self._create__yellow_frame(full_list_reserch_patch_files)
-            self.advanced.state((['!disabled']))
-            self.save_all_purple_Frame.state(['!disabled'])
-            self.entry_search.state((['disabled']))
-            self.button_search.state(['disabled'])
-            self.ignore_case.state(['disabled'])
-            self.button_folder.state(['disabled'])
-            self.button_files.state(['disabled'])
+        try:
 
-        else:
-            self.frame_no_results_found.pack()
+            if len(self.full_list_reserch_patch_files[0][0]) > 1 and isinstance(self.full_list_reserch_patch_files[0][0], list):
+                self._create__yellow_frame(full_list_reserch_patch_files)
+                self.advanced.state((['!disabled']))
+                self.save_all_purple_Frame.state(['!disabled'])
+                self.entry_search.state((['disabled']))
+                self.button_search.state(['disabled'])
+                self.ignore_case.state(['disabled'])
+                self.button_folder.state(['disabled'])
+                self.button_files.state(['disabled'])
+
+            else:
+                self.frame_no_results_found = FrameNoResultsFound(self ,"frame_no_results_found")
+                self.frame_no_results_found.pack()
+                self.fu_disable(0)
+        except IndexError:
+            self.frame_no_Files_found = FrameNoResultsFound(self , "frame_no_Files_found")
+            self.frame_no_Files_found.pack()
+            self.fu_disable(0)
 
         return full_list_reserch_patch_files
 
@@ -482,7 +497,7 @@ class Gui(tkk.Tk):
 
 
 def main():
-    gui_object = Gui('language\\pl_PL')
+    gui_object = Gui('pl_PL')
     gui_object.mainloop()
 
 
