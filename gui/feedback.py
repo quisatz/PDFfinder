@@ -7,7 +7,7 @@ class PDFFinderFeedback(tkk.Toplevel):
         super().__init__(master, *args, **kwargs)
         self.short = self.master.languages
         #bg_color = '#0088FF'
-
+        self.iconbitmap("app_icon.ico")
         self.grab_set()
         self.withdraw()
         self.title(self.short["txt_feedback_screen_feedback"])
@@ -24,10 +24,10 @@ class PDFFinderFeedback(tkk.Toplevel):
         # self.frame_header.style.configure('TLabel', background='#FFFFFF', font=('Arial', 10))
         self.frame_header.style.configure('Header.TLabel', font=('Arial', 14))
 
-        self.logo = tkk.PhotoImage(file='logoOpnie.png')
+        self.logo = tkk.PhotoImage(file='feedback.png')
         ttk.Label(self.frame_header, image=self.logo).grid(row=0, column=0, rowspan=2)
-        ttk.Label(self.frame_header, text=self.short["txt_feedback_screen__leave_your_opinion"], style='Header.TLabel').grid(
-            row=0, column=1)
+        # ttk.Label(self.frame_header, text=self.short["txt_feedback_screen__leave_your_opinion"], style='Header.TLabel').grid(
+        #     row=0, column=1)
 
         self.frame_content = ttk.Frame(self)
         self.frame_content.pack()

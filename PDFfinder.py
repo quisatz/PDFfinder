@@ -31,9 +31,10 @@ class Gui(tkk.Tk):
         self.lang = lang
         self.change_lang(lang)
         self.search = ''
-
+        self.iconbitmap("app_icon.ico")
         self.scaleW_value = tkk.IntVar(value=20)
         self.scaleW_value.trace_add('write', self.refresh_frame_yellow)
+        self.title('PDF finder')
 
         self.entry_searchVar = tkk.StringVar(self)
         self.entry_searchVar.trace_add('write', self.entry_not_empty)

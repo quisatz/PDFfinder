@@ -8,7 +8,9 @@ class PDFFinderInfo(tkk.Toplevel):
     def __init__(self, master, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
         self.short = self.master.languages
+        self.iconbitmap("app_icon.ico")
         self.withdraw()
+        self.grab_set()
         self.title('PDF finder info')
 
         self.resizable(False, False)
@@ -22,7 +24,7 @@ class PDFFinderInfo(tkk.Toplevel):
         ttk.Label(self, text=self.short["txt_PDF_finder_information__PDF_finder_ver_1_0_(x64)"]).grid(row=1, column=1, padx=10, pady=5, sticky='sw')
         ttk.Label(self, text=self.short["txt_PDF_finder_information__copyright_c_Borys_Gołębiowski"]).grid(row=2, column=1, padx=10, sticky='sw')
 
-        self.logo = tkk.PhotoImage(file='logoOpnie.png')
+        self.logo = tkk.PhotoImage(file='me.png')
         ttk.Label(self, image=self.logo).grid(row=2, column=2, rowspan=2)
 
         ttk.Label(self, text=self.short["txt_PDF_finder_information__you_can_find_me_on"]).grid(row=3, column=1, padx=10, pady=5, sticky='sw')
