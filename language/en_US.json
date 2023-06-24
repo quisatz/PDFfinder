@@ -40,5 +40,6 @@
 "txt_main_screen__save_all":"Save All",
 "txt_window_name__screen_open PDF files":"Open PDF files",
 "txt_no_results_found": "No results found!",
-"no_files_found_in_directory": "No files found in directory!"
+"no_files_found_in_directory": "No files found in directory!",
+"txt_results_found": "Results found!"
 }

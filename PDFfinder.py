@@ -1,4 +1,19 @@
 '''
+
+#spr
+
+
+
+
+
+
+
+
+okno sie powieksza jak sie zmienia napis nie znaleziono plikow w katalogi - zmien wielkosc czcionki - na sztywno jednak
+okno sie powieksza przy zaawanoswanych wiec trzeba na szytno wielko jednak ustawic
+
+
+
 do zrobienia pisane 01.07.2023:
 
 
@@ -23,6 +38,8 @@ from gui.frames.no_results_found import FrameNoResultsFound
 import glob
 import json
 
+
+
 class Gui(tkk.Tk):
 
     def __init__(self , lang):
@@ -44,12 +61,6 @@ class Gui(tkk.Tk):
         width_of_window = 1200
         height_of_window = 700
 
-        screen_width = self.winfo_screenwidth()
-        screen_height = self.winfo_screenheight()
-        x_coordinate = (screen_width / 2) - (width_of_window / 2)
-        y_coordinate = (screen_height / 2) - (height_of_window / 2)
-        self.geometry("%dx%d+%d+%d" % (width_of_window, height_of_window, x_coordinate, y_coordinate))
-
         self.menubar = Menubar(self)
         self._create_green_frame()
         self._create_purple_frame()
@@ -58,7 +69,18 @@ class Gui(tkk.Tk):
         self.frame_yellow = ttk.Frame(self)
 
         self._save_selected__add_file_names()
-        #self.frame_no_results_found = FrameNoResultsFound(self)
+        self.update_idletasks()
+        self.center_window_position()
+        self.deiconify()
+
+
+    def center_window_position(self):
+        window_width = self.winfo_reqwidth()
+        window_height = self.winfo_reqheight()
+        position_right = int(self.winfo_screenwidth() / 2 - window_width / 2)
+        position_down = int(self.winfo_screenheight() / 2 - window_height / 2)
+        self.geometry("+{}+{}".format(position_right, position_down))
+
 
     def change_lang(self , language , flag=0):
         self.languages = {}
@@ -101,11 +123,6 @@ class Gui(tkk.Tk):
         self.frame__save_selected__add_file_names.forget()
         self.frame_yellow.forget()
         self.frame_black.forget()
-        try:
-            self.frame_no_results_found.forget()
-        except AttributeError:
-            pass
-
 
     def entry_not_empty(self, *args):
         if len(self.entry_searchVar.get()) > 2:
@@ -235,7 +252,6 @@ class Gui(tkk.Tk):
     def open_folder(self):
         self.open_action = filedialog.askdirectory()
         if self.open_action:
-
             self.entry_search.state((['!disabled']))
             self.ignore_case.state(['!disabled'])
 
@@ -263,14 +279,14 @@ class Gui(tkk.Tk):
                 self.ignore_case.state(['disabled'])
                 self.button_folder.state(['disabled'])
                 self.button_files.state(['disabled'])
+                FrameNoResultsFound(self, "txt_results_found")
 
             else:
-                self.frame_no_results_found = FrameNoResultsFound(self ,"frame_no_results_found")
-                self.frame_no_results_found.pack()
+                FrameNoResultsFound(self ,"frame_no_results_found")
                 self.fu_disable(0)
+
         except IndexError:
-            self.frame_no_Files_found = FrameNoResultsFound(self , "frame_no_Files_found")
-            self.frame_no_Files_found.pack()
+            FrameNoResultsFound(self , "frame_no_Files_found")
             self.fu_disable(0)
 
         return full_list_reserch_patch_files
@@ -295,13 +311,18 @@ class Gui(tkk.Tk):
                 self.full_list_reserch_patch_files.append(list_search_result_file)
         return self.full_list_reserch_patch_files
 
+
     def pdf2txt(self, fill_patch_pdf_file):
-        with pdfplumber.open(fill_patch_pdf_file) as pdf:
-            full_txt_from_pdf_file = ''
-            total_pages = len(pdf.pages)
-            for i in range(0, total_pages):
-                page_obj = pdf.pages[i]
-                full_txt_from_pdf_file += page_obj.extract_text() + '\n'
+        full_txt_from_pdf_file = ''
+        try:
+            with pdfplumber.open(fill_patch_pdf_file) as pdf:
+                full_txt_from_pdf_file = ''
+                total_pages = len(pdf.pages)
+                for i in range(0, total_pages):
+                    page_obj = pdf.pages[i]
+                    full_txt_from_pdf_file += page_obj.extract_text() + '\n'
+        except:
+            return full_txt_from_pdf_file
         return full_txt_from_pdf_file
 
     def engine_search(self, full_txt_from_pdf):
@@ -392,7 +413,7 @@ class Gui(tkk.Tk):
 
         self.save_all_purple_Frame = ttk.Button(self.frame_purple, text=self.languages["txt_main_screen__save_all"],
                                                  command=lambda: self.save_file(self.full_list_reserch_patch_files))
-        self.save_all_purple_Frame.pack(side=tkk.TOP, )
+        self.save_all_purple_Frame.pack(side=tkk.TOP, pady=10)
         self.save_all_purple_Frame.state(['disabled'])
 
     def _create__yellow_frame(self, list_full_search_results_from_path):
@@ -480,17 +501,24 @@ class Gui(tkk.Tk):
         self.button_save_selected.config(variable=self.Var_save_selected, onvalue=1, offvalue=0)
 
     def display_input(self):
+        self.withdraw()
         if self.checkbuttonFrame_purpleVar.get() == '1':
             self.save_all_purple_Frame.state(['disabled'])
             self.frame_black.pack()
             self.frame_yellow.pack()
             self.frame__save_selected__add_file_names.pack()
+            self.update_idletasks()
+            self.center_window_position()
+            self.deiconify()
 
         else:
             self.frame_black.forget()
             self.frame_yellow.forget()
             self.frame__save_selected__add_file_names.forget()
             self.save_all_purple_Frame.state(['!disabled'])
+            self.update_idletasks()
+            self.center_window_position()
+            self.deiconify()
 
     def refresh_frame_yellow(self, *args):
         self.create_text_in_entries(self.full_list_reserch_patch_files)
