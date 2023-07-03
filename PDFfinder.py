@@ -4,16 +4,6 @@
 
 
 
-
-
-
-
-
-okno sie powieksza jak sie zmienia napis nie znaleziono plikow w katalogi - zmien wielkosc czcionki - na sztywno jednak
-okno sie powieksza przy zaawanoswanych wiec trzeba na szytno wielko jednak ustawic
-
-
-
 do zrobienia pisane 01.07.2023:
 
 
@@ -48,7 +38,11 @@ class Gui(tkk.Tk):
         self.lang = lang
         self.change_lang(lang)
         self.search = ''
-        self.iconbitmap("app_icon.ico")
+
+        self.icon = tkk.PhotoImage(file="app_icon.png")
+        self.iconphoto(True, self.icon)
+
+
         self.scaleW_value = tkk.IntVar(value=20)
         self.scaleW_value.trace_add('write', self.refresh_frame_yellow)
         self.title('PDF finder')
@@ -72,6 +66,7 @@ class Gui(tkk.Tk):
         self.update_idletasks()
         self.center_window_position()
         self.deiconify()
+        self.entry_searchVar.set(self.languages["txt_main_screen__enter_search_term"])
 
 
     def center_window_position(self):
@@ -84,14 +79,17 @@ class Gui(tkk.Tk):
 
     def change_lang(self , language , flag=0):
         self.languages = {}
-        self.language_list = glob.glob("language/*.json")
+        self.language_list = glob.glob(os.path.join('language', "*.json"))
+        print("self.language_list:" , self.language_list)
         for lang in self.language_list:
-
-            filename = lang.split('/')[-1]
-            lang_code = filename.split('.')[0]
+            print("lang:" , lang)
+            lang_code = lang.split('.')[0]
+            print("lang_code:" , lang_code)
             with open(lang, 'r', encoding='utf8') as file:
                 self.languages[lang_code] = json.loads(file.read())
-        self.languages = self.languages["language\\" + language]
+        print("language:" , language)
+        self.languages = self.languages[os.path.join('language', language)]
+        print("self.languages" ,self.languages)
 
         if flag:
             self.destroy()
@@ -126,7 +124,8 @@ class Gui(tkk.Tk):
 
     def entry_not_empty(self, *args):
         if len(self.entry_searchVar.get()) > 2:
-            self.button_search.state(['!disabled'])
+            if self.entry_searchVar.get() != self.languages["txt_main_screen__enter_search_term"]:
+                self.button_search.state(['!disabled'])
         else:
             self.button_search.state(['disabled'])
 
@@ -363,7 +362,7 @@ class Gui(tkk.Tk):
         self.frame_green.config(height=100, width=400 )
         self.frame_green_label = ttk.Label(self.frame_green,
                                            text=self.languages["txt_main_screen__select_files_or_folder_to_search"],
-                                           font=('Arial', 12))
+                                           font=('Arial', 10) )
         self.frame_green_label.grid(row=0, column=0, pady=20, padx=100, sticky='sw')
 
         self.button_folder = ttk.Button(self.frame_green, text=self.languages["txt_main_screen__folder"], command=self.open_folder)
@@ -372,23 +371,23 @@ class Gui(tkk.Tk):
         self.button_files.grid(row=1, column=0, padx=10, pady=0, sticky='se')
 
         self.entry_search = ttk.Entry(self.frame_green, textvariable=self.entry_searchVar, width=45,
-                                      font=('Arial', 10))
+                                      font=('Arial', 8))
         self.entry_search.grid(row=4, column=0, padx=10, pady=0, columnspan=2, sticky='swe')
         self.entry_search.state((['disabled']))
 
         self.uppercaseVar = tkk.StringVar(value='0')
         self.ignore_case = ttk.Checkbutton(self.frame_green, text=self.languages["txt_main_screen__Ignore case"])
-        self.ignore_case.grid(row=3, column=0, padx=10, pady=(30, 0), columnspan=2, sticky='swe')
+        self.ignore_case.grid(row=3, column=0, padx=10, pady=(50, 0), columnspan=2, sticky='se')
         self.ignore_case.config(variable=self.uppercaseVar, onvalue="1",
                                 offvalue="0")
         self.ignore_case.state(['disabled'])
 
-        link5 = ttk.Label(self.frame_green, text=self.languages["txt_main_screen__enter_search_term"], font=('Arial', 8))
-        link5.grid(row=5, column=0, pady=0, padx=100, columnspan=2)
+        # link5 = ttk.Label(self.frame_green, text=self.languages["txt_main_screen__enter_search_term"], font=('Arial', 8))
+        # link5.grid(row=5, column=0, pady=(0, 10), padx=100, columnspan=2)
         self.wyniki = lambda: self.create_text_in_entries(self.combo(self.open_action))
         self.button_search = ttk.Button(self.frame_green, text=self.languages["txt_main_screen__search"],
                                         command=self.wyniki)
-        self.button_search.grid(row=6, column=0, padx=10, pady=20, sticky='sw')
+        self.button_search.grid(row=6, column=0, padx=10, pady=(10,0), sticky='s')
         self.button_search.state(['disabled'])
         self.frame_green.pack()
 
@@ -398,7 +397,7 @@ class Gui(tkk.Tk):
 
         self.canvas = tkk.Canvas(self.frame_purple)
         self.canvas.config(height=30)
-        self.canvas.create_line(0, 30, 10000, 30, fill='black', width=2)
+        self.canvas.create_line(0, 30, 10000, 30, fill='black', width=1)
         self.canvas.pack()
 
         self.checkbuttonFrame_purpleVar = tkk.StringVar(value='0')

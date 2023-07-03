@@ -7,7 +7,7 @@ class PDFFinderFeedback(tkk.Toplevel):
         super().__init__(master, *args, **kwargs)
         self.short = self.master.languages
         #bg_color = '#0088FF'
-        self.iconbitmap("app_icon.ico")
+        self.iconphoto(True, master.icon)
         self.grab_set()
         self.withdraw()
         self.title(self.short["txt_feedback_screen_feedback"])
