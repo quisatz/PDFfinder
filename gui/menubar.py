@@ -3,6 +3,7 @@ from tkinter import Menu
 
 from gui.feedback import PDFFinderFeedback
 from gui.info import PDFFinderInfo
+from gui.how import PDFFinderHow
 
 
 class Menubar(tkk.Menu):
@@ -31,6 +32,6 @@ class Menubar(tkk.Menu):
         language.add_command(label=self.short["txt_menu__english"], command=lambda: self.master.change_lang('en_US' , 1))
 
         help_.add_command(label=self.short["txt_menu_help__send_feedback"], command=lambda: PDFFinderFeedback(self.master))
-        help_.add_command(label=self.short["txt_menu__how_to_use"], command=lambda: print('Opening File...'))
+        help_.add_command(label=self.short["txt_menu__how_to_use"], command=lambda: PDFFinderHow(self.master))
         help_.add_separator()
         help_.add_command(label=self.short["txt_menu__PDF_finder_information"], command=lambda: PDFFinderInfo(self.master))
