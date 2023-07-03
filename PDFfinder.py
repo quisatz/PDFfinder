@@ -77,16 +77,11 @@ class Gui(tkk.Tk):
     def change_lang(self , language , flag=0):
         self.languages = {}
         self.language_list = glob.glob(os.path.join('language', "*.json"))
-        print("self.language_list:" , self.language_list)
         for lang in self.language_list:
-            print("lang:" , lang)
             lang_code = lang.split('.')[0]
-            print("lang_code:" , lang_code)
             with open(lang, 'r', encoding='utf8') as file:
                 self.languages[lang_code] = json.loads(file.read())
-        print("language:" , language)
         self.languages = self.languages[os.path.join('language', language)]
-        print("self.languages" ,self.languages)
 
         if flag:
             self.destroy()
