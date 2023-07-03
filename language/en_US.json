@@ -26,7 +26,7 @@
 "txt_PDF_finder_information__you_can_find_me_on":"You can find me on:",
 "txt_PDF_finder_information__copy_email":"copy email",
 "txt_PDF_finder_information__PDF_finder_is_a_free_program_for_non-commercial_use": "PDF finder is a free program for non-commercial use.",
-"txt_main_screen__select_files_or_folder_to_search":"Select files or folder to search.",
+"txt_main_screen__select_files_or_folder_to_search":"       Select files or folder to search.      ",
 "txt_main_screen__folder":"Directory",
 "txt_main_screen__files":"Files",
 "txt_main_screen__Ignore case":"Ignore case?",
@@ -41,5 +41,7 @@
 "txt_window_name__screen_open PDF files":"Open PDF files",
 "txt_no_results_found": "No results found!",
 "no_files_found_in_directory": "No files found in directory!",
-"txt_results_found": "Results found!"
+"txt_results_found": "Results found!",
+"user_manual": "User manual:",
+"demonstration_of_the_program_on_youtube": "Demonstration of the program on youtube"
 }
