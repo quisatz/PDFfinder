@@ -6,7 +6,7 @@ class FrameNoResultsFound(tkk.Toplevel):
         super().__init__(master   ,*arg , **kw)
         self.config(relief=tkk.SUNKEN)
         self.short = self.master.languages
-        self.iconbitmap("app_icon.ico")
+        self.iconphoto(True, master.icon)
         self.config(height=50, width=400)
         self.buttom_ok = ttk.Button(self, text="ok", command=self.destroy)
         self.grab_set()
