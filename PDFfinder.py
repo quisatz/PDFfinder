@@ -12,7 +12,7 @@ do zrobienia pisane 01.07.2023:
 12. Kontorla przez K. Lemka
 
 '''
-import os
+import os , sys
 import pdfplumber
 import fnmatch
 
@@ -34,8 +34,7 @@ class Gui(tkk.Tk):
 
     def __init__(self , lang):
         super().__init__()
-        self.icon = tkk.PhotoImage(file="app_icon.png")
-        self.iconphoto(True, self.icon)
+        self.icon_create()
         self.lang = lang
         self.change_lang(lang)
         self.search = ''
@@ -64,6 +63,10 @@ class Gui(tkk.Tk):
         self.center_window_position()
         self.deiconify()
 
+    def icon_create(self):
+        self.icon = tkk.PhotoImage(file="app_icon.png")
+        self.iconphoto(True, self.icon ,self.icon)
+        self.iconbitmap(sys.executable)
 
     def center_window_position(self):
         window_width = self.winfo_reqwidth()
@@ -85,6 +88,7 @@ class Gui(tkk.Tk):
         if flag:
             self.destroy()
             gui_object = Gui(language)
+            gui_object.icon_create()
         return self.languages
 
     def fu_disable(self , flag):
