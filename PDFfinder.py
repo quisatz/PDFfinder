@@ -34,12 +34,12 @@ class Gui(tkk.Tk):
 
     def __init__(self , lang):
         super().__init__()
-
+        self.icon = tkk.PhotoImage(file="app_icon.png")
+        self.iconphoto(True, self.icon)
         self.lang = lang
         self.change_lang(lang)
         self.search = ''
-        self.icon = tkk.PhotoImage(file="app_icon.png")
-        self.iconphoto(True, self.icon)
+
         self.scaleW_value = tkk.IntVar(value=20)
         self.scaleW_value.trace_add('write', self.refresh_frame_yellow)
         self.title('PDF finder')
@@ -60,10 +60,11 @@ class Gui(tkk.Tk):
         self.frame_yellow = ttk.Frame(self)
 
         self._save_selected__add_file_names()
+        self.entry_searchVar.set(self.languages["txt_main_screen__enter_search_term"])
         self.update_idletasks()
         self.center_window_position()
         self.deiconify()
-        self.entry_searchVar.set(self.languages["txt_main_screen__enter_search_term"])
+
 
 
     def center_window_position(self):
@@ -75,6 +76,7 @@ class Gui(tkk.Tk):
 
 
     def change_lang(self , language , flag=0):
+
         self.languages = {}
         self.language_list = glob.glob(os.path.join('language', "*.json"))
         for lang in self.language_list:
@@ -86,6 +88,7 @@ class Gui(tkk.Tk):
         if flag:
             self.destroy()
             gui_object = Gui(language)
+
         return self.languages
 
     def fu_disable(self , flag):
@@ -113,6 +116,7 @@ class Gui(tkk.Tk):
         self.frame__save_selected__add_file_names.forget()
         self.frame_yellow.forget()
         self.frame_black.forget()
+        self.entry_searchVar.set(self.languages["txt_main_screen__enter_search_term"])
 
     def entry_not_empty(self, *args):
         if len(self.entry_searchVar.get()) > 2:

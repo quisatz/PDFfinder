@@ -22,32 +22,42 @@ class PDFFinderInfo(tkk.Toplevel):
         self.label5 = tkk.Label(self, width=5)
 
         ttk.Label(self, text=self.short["txt_PDF_finder_information__PDF_finder_ver_1_0_(x64)"] , font='Helvetica 12 bold').grid(row=0, column=0, padx=10, pady=5, columnspan=3 ,sticky='')
-        ttk.Label(self, text=self.short["txt_PDF_finder_information__copyright_c_Borys_Gołębiowski"], font='Helvetica 7').grid(row=7, column=0, padx=10,pady=(20 ,0) ,  sticky='sw')
 
         self.logo = tkk.PhotoImage(file='me.png')
         ttk.Label(self, image=self.logo).grid(row=3, column=1, rowspan=5 , columnspan=4)
+        ttk.Label(self, text=self.short["txt_PDF_finder_information__you_can_find_me_on"]).grid(row=3, column=0, padx=10, pady=0, sticky='sw')
 
-        ttk.Label(self, text=self.short["txt_PDF_finder_information__you_can_find_me_on"]).grid(row=3, column=0, padx=10, pady=5, sticky='sw')
+        link1 = ttk.Label(self, text='Github', cursor="hand2")
+        link1.grid(row=4, column=0, padx=10, pady=(10,5), sticky='sw')
+        link1.bind("<Button-1>", lambda e: open_new("https://github.com/quisatz"))
 
-        link1 = ttk.Label(self, text='Facebook', cursor="hand2")
-        link1.grid(row=4, column=0, padx=10, pady=10, sticky='sw')
-        link1.bind("<Button-1>", lambda e: open_new("https://www.facebook.com/NathanCelina"))
 
-        link2 = ttk.Label(self, text='Linkedin', cursor="hand2")
-        link2.grid(row=5, column=0, padx=10, pady=(10,15 ), sticky='sw')
-        link2.bind("<Button-1>",
+        link2 = ttk.Label(self, text='Facebook', cursor="hand2")
+        link2.grid(row=6, column=0, padx=10, pady=5, sticky='sw')
+        link2.bind("<Button-1>", lambda e: open_new("https://www.facebook.com/NathanCelina"))
+
+        link3 = ttk.Label(self, text='Linkedin', cursor="hand2")
+        link3.grid(row=5, column=0, padx=10, pady=5, sticky='sw')
+        link3.bind("<Button-1>",
                    lambda e: open_new("https://www.linkedin.com/in/borys-go%C5%82%C4%99biowski-02b883158/"))
 
-        link3 = ttk.Label(self, text='Email', cursor="hand2")
-        link3.grid(row=6, column=0, pady=5, padx=10, sticky='sw')
-        link3.bind("<Button-1>", lambda e: open_new("mailto:borysgolebiowskipl@gmail.com"))
+        link4 = ttk.Label(self, text='Email', cursor="hand2")
+        link4.grid(row=7, column=0, pady=5, padx=10, sticky='sw')
+        link4.bind("<Button-1>", lambda e: open_new("mailto:borysgolebiowskipl@gmail.com"))
 
         button_window = ttk.Button(self, text=self.short["txt_PDF_finder_information__copy_email"])
-        button_window.grid(row=6, column=0, columnspan=2 ,padx=(0,50) ,sticky='s')
+        button_window.grid(row=7, column=0, columnspan=2 ,padx=(0,50) ,sticky='s')
         button_window.bind("<Button-1>", lambda e: pyperclip.copy('borysgolebiowskipl@gmail.com'))
 
+        ttk.Label(self, text=self.short["txt_PDF_finder_information__copyright_c_Borys_Gołębiowski"], font='Helvetica 7').grid(
+                                        row=8, column=0, padx=10,pady=(20 ,0) ,  sticky='sw')
+
         ttk.Label(self, text=self.short["txt_PDF_finder_information__PDF_finder_is_a_free_program_for_non-commercial_use"]
-                  , font='Helvetica 7').grid(row=8,column=0, padx=10, pady=(0 ,10), columnspan=2 ,sticky='sw')
+                  , font='Helvetica 7').grid(row=9,column=0, padx=10, pady=(0 ,10), columnspan=2 ,sticky='sw')
+
+        link5 = ttk.Label(self, text=self.short["info"] , font='Helvetica 6' , cursor="hand2")
+        link5.grid(row=10,column=0, padx=10, pady=(0 ,10), columnspan=2 ,)
+        link5.bind("<Button-1>", lambda e: open_new("https://github.com/Arthan/"))
 
         self.update_idletasks()
         self.center_window_position()
