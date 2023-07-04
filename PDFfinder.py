@@ -39,7 +39,6 @@ class Gui(tkk.Tk):
         self.lang = lang
         self.change_lang(lang)
         self.search = ''
-
         self.scaleW_value = tkk.IntVar(value=20)
         self.scaleW_value.trace_add('write', self.refresh_frame_yellow)
         self.title('PDF finder')
@@ -66,7 +65,6 @@ class Gui(tkk.Tk):
         self.deiconify()
 
 
-
     def center_window_position(self):
         window_width = self.winfo_reqwidth()
         window_height = self.winfo_reqheight()
@@ -76,7 +74,6 @@ class Gui(tkk.Tk):
 
 
     def change_lang(self , language , flag=0):
-
         self.languages = {}
         self.language_list = glob.glob(os.path.join('language', "*.json"))
         for lang in self.language_list:
@@ -88,7 +85,6 @@ class Gui(tkk.Tk):
         if flag:
             self.destroy()
             gui_object = Gui(language)
-
         return self.languages
 
     def fu_disable(self , flag):
