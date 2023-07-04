@@ -66,7 +66,7 @@ class Gui(tkk.Tk):
     def icon_create(self):
         self.icon = tkk.PhotoImage(file="app_icon.png")
         self.iconphoto(True, self.icon ,self.icon)
-        self.iconbitmap(sys.executable)
+    
 
     def center_window_position(self):
         window_width = self.winfo_reqwidth()
