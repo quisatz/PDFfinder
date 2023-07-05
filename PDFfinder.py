@@ -1,12 +1,5 @@
 '''
 
-#spr
-
-
-
-do zrobienia pisane 01.07.2023:
-
-
 10.Zajecie sie problemamy pozosyalych elementow menu
 11.Refactoring
 12. Kontorla przez K. Lemka
@@ -116,6 +109,9 @@ class Gui(tkk.Tk):
         self.frame_yellow.forget()
         self.frame_black.forget()
         self.entry_searchVar.set(self.languages["txt_main_screen__enter_search_term"])
+        self.update_idletasks()
+        self.center_window_position()
+        self.deiconify()
 
     def entry_not_empty(self, *args):
         if len(self.entry_searchVar.get()) > 2:
@@ -260,7 +256,7 @@ class Gui(tkk.Tk):
             self.entry_search.state((['!disabled']))
             self.ignore_case.state(['!disabled'])
 
-    def create_text_in_entries(self, full_list_reserch_patch_files):
+    def create_text_in_entries(self, full_list_reserch_patch_files , flag=0):
 
         try:
 
@@ -273,7 +269,8 @@ class Gui(tkk.Tk):
                 self.ignore_case.state(['disabled'])
                 self.button_folder.state(['disabled'])
                 self.button_files.state(['disabled'])
-                FrameNoResultsFound(self, "txt_results_found")
+                if flag == 0:
+                    FrameNoResultsFound(self, "txt_results_found")
 
             else:
                 FrameNoResultsFound(self ,"frame_no_results_found")
@@ -467,10 +464,6 @@ class Gui(tkk.Tk):
             variable=self.scaleW_value,length=300, to=20, resolution=10,orient=tkk.HORIZONTAL)
 
         self.scaleW.grid(row=0, column=2, padx=0, pady=20)
-
-        self.iw = len(list_full_search_results_from_path[0]) - 1
-        self.ik = self.scaleW.get()
-
         self.button_search.state((['!disabled']))
 
     def _save_selected__add_file_names(self):
@@ -515,7 +508,7 @@ class Gui(tkk.Tk):
             self.deiconify()
 
     def refresh_frame_yellow(self, *args):
-        self.create_text_in_entries(self.full_list_reserch_patch_files)
+        self.create_text_in_entries(self.full_list_reserch_patch_files , flag=1)
         self.save_all_purple_Frame.state(['disabled'])
 
 
