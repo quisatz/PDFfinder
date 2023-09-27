@@ -19,6 +19,7 @@
 "txt_feedback_screen__send":"send",
 "txt_feedback_screen__clear":"clear",
 "txt_feedback_screen__comments_submitted":"Comments Submitted!",
+"txt_feedback_screen__comments_not_submitted":"Message NOT sent. Check the name and email content of the message.!",
 "txt_menu__how_to_use":"How to use",
 "txt_menu__PDF_finder_information":"PDF finder information",
 "txt_PDF_finder_information__PDF_finder_ver_1_0_(x64)":"PDF finder version 1.0 (x64)",

@@ -1,3 +1,5 @@
+import requests
+from bs4 import BeautifulSoup
 import tkinter as tkk
 from tkinter import ttk, messagebox
 
@@ -54,11 +56,98 @@ class PDFFinderFeedback(tkk.Toplevel):
         self.deiconify()
 
     def submit(self):
+
+        headers = {
+            'Referer': 'https://borysgolebiowskipl.wixsite.com/borys/_partials/wix-thunderbolt/dist/clientWorker.b151dd12.bundle.min.js',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36',
+            'Authorization': 'IjLnBgbcij6t1fgckD_Vcs3vEYKl5nvXb5Nfma1ekug.eyJpbnN0YW5jZUlkIjoiMWFlNDQ4ODUtNmQ0Ny00MjFkLWFiZDktNzBlNmExNzdkZGI5IiwiYXBwRGVmSWQiOiIxNGNlMTIxNC1iMjc4LWE3ZTQtMTM3My0wMGNlYmQxYmVmN2MiLCJtZXRhU2l0ZUlkIjoiMDhkZDMyODAtNTRlOS00ZTA5LWFiZTUtZjJiMjgxMzAxNWQ3Iiwic2lnbkRhdGUiOiIyMDIzLTA5LTI3VDE1OjM5OjU3LjIzOFoiLCJkZW1vTW9kZSI6ZmFsc2UsIm9yaWdpbkluc3RhbmNlSWQiOiJjNTFhMmRlNC0xZTBmLTQxYzMtYTQ0ZS0xMDY3N2NhMjE0MjMiLCJhaWQiOiJhYTUxMGM3My0yYTYyLTQ4ZGEtYjQwNy0xMjFkMzMwYTM1MDIiLCJiaVRva2VuIjoiMTIzOTdhMDUtMzlhZS0wYzE0LTAwM2MtODI1NDIwNDdjODZlIiwic2l0ZU93bmVySWQiOiJhYTIwMTdkNS1mMzQyLTQ2OTItOTQ0OC1lYWNlN2I4YTFlYTMifQ',
+            'X-Wix-Client-Artifact-Id': 'wix-form-builder',
+            'Content-Type': 'application/json',
+        }
+
+        json_data = {
+            'formProperties': {
+                'formName': 'Contacts Form',
+                'formId': 'comp-jxabkofu',
+            },
+            'emailConfig': {
+                'sendToOwnerAndEmails': {
+                    'emailIds': [],
+                },
+            },
+            'viewMode': 'Site',
+            'fields': [
+                {
+                    'fieldId': 'comp-jxabkog6',
+                    'label': 'Name',
+                    'lastName': {
+                        'value': self.entry_name.get(),
+                    },
+                },
+                {
+                    'fieldId': 'comp-jxabkogd',
+                    'label': 'Email',
+                    'email': {
+                        'value': self.entry_email.get(),
+                        'tag': 'main',
+                    },
+                },
+                {
+                    'fieldId': 'comp-jxabkogj',
+                    'label': 'Subject',
+                    'custom': {
+                        'value': {
+                            'string': 'Comments from PDFfinder',
+                        },
+                        'customFieldId': '0f8b898c-3d5a-439d-b101-b4a7d9e5d678',
+                    },
+                },
+                {
+                    'fieldId': 'comp-jxabkogq',
+                    'label': 'Message',
+                    'custom': {
+                        'value': {
+                            'string': self.text_comments.get(1.0, 'end'),
+                        },
+                        'customFieldId': '9b3942c4-5ad2-4be2-aef5-df9f55c3a6bf',
+                    },
+                },
+            ],
+            'labelKeys': [
+                'contacts.contacted-me',
+                'custom.contacts-form',
+            ],
+        }
+
+        response = requests.post(
+            'https://borysgolebiowskipl.wixsite.com/borys/_api/wix-forms/v1/submit-form',
+            headers=headers,
+            json=json_data,
+        )
+
+
+
+
+
         print('Name: {}'.format(self.entry_name.get()))
         print('Email: {}'.format(self.entry_email.get()))
         print('Comments: {}'.format(self.text_comments.get(1.0, 'end')))
-        self.clear()
-        messagebox.showinfo(title="txt_feedback_screen_feedback", message=self.short["txt_feedback_screen__comments_submitted"], parent=self)
+
+
+        soup = BeautifulSoup(response.text, features='html.parser')
+        print('soup.text:', soup.text)
+        if soup.text[2:14] == 'submissionId':
+            self.clear()
+            messagebox.showinfo(title="txt_feedback_screen_feedback",
+                                message=self.short["txt_feedback_screen__comments_submitted"],
+                                parent=self)
+            self.destroy()
+
+        else:
+            messagebox.showinfo(title="txt_feedback_screen_feedback",
+                                message=self.short["txt_feedback_screen__comments_not_submitted"],
+                                parent=self)
+
 
     def clear(self):
         self.entry_name.delete(0, 'end')

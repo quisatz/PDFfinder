@@ -1,6 +1,5 @@
 '''
 
-10.Zajecie sie problemamy pozosyalych elementow menu
 11.Refactoring
 12. Kontorla przez K. Lemka
 

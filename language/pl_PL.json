@@ -19,6 +19,7 @@
 "txt_feedback_screen__send":"wyślij",
 "txt_feedback_screen__clear":"wyczyść",
 "txt_feedback_screen__comments_submitted":"komentarz wysłany!",
+"txt_feedback_screen__comments_not_submitted":"Wiadomośc NIEwysłana. Sprawdz imie email treść wiadomości.",
 "txt_menu__how_to_use":"Jak korzystać",
 "txt_menu__PDF_finder_information":"PDF finder informacje",
 "txt_PDF_finder_information__PDF_finder_ver_1_0_(x64)":"PDF finder wersja 1.0 (x64)",
