@@ -57,10 +57,45 @@ class PDFFinderFeedback(tkk.Toplevel):
 
     def submit(self):
 
+        cookies = {
+            'svSession': '2396594eac4e78a8f3e539b9554617d38bb02a315f272702cd9ad3cf4676037b91660634cf9fe02e232e0ac79d3be90d1e60994d53964e647acf431e4f798bcdce9a7f8d3e16c027af28bb0538bfde4c328007f22dda61ba1a95ae3eb862e5bcc4ee86258d3e2a1a877cb452cebdeca0f08ba019d731afa2fc78c8a9b0696afba31176df2ab7e392bff671756e774370',
+            'TS018a76eb': '01d72e6d1628bdb066ddcf4e45958783a51edc72a3c07ad936c1927ceb306d1eae9f716b023fd348acc74c00ae480532b7a06e07d4',
+            'ssr-caching': 'cache#desc=hit#varnish=hit#dc#desc=84_g',
+            'XSRF-TOKEN': '1696004164|3U0gAOjerBAO',
+            'hs': '2032116472',
+            'bSession': '1d25d1f4-7c96-40ff-a1d4-144320c23297|2',
+        }
+
         headers = {
+            'authority': 'borysgolebiowskipl.wixsite.com',
+            'accept': '*/*',
+            'accept-language': 'pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7',
+            'cache-control': 'no-cache',
+            # 'cookie': 'svSession=2396594eac4e78a8f3e539b9554617d38bb02a315f272702cd9ad3cf4676037b91660634cf9fe02e232e0ac79d3be90d1e60994d53964e647acf431e4f798bcdce9a7f8d3e16c027af28bb0538bfde4c328007f22dda61ba1a95ae3eb862e5bcc4ee86258d3e2a1a877cb452cebdeca0f08ba019d731afa2fc78c8a9b0696afba31176df2ab7e392bff671756e774370; TS018a76eb=01d72e6d1628bdb066ddcf4e45958783a51edc72a3c07ad936c1927ceb306d1eae9f716b023fd348acc74c00ae480532b7a06e07d4; ssr-caching=cache#desc=hit#varnish=hit#dc#desc=84_g; XSRF-TOKEN=1696004164|3U0gAOjerBAO; hs=2032116472; bSession=1d25d1f4-7c96-40ff-a1d4-144320c23297|2',
+            'pragma': 'no-cache',
+            'referer': 'https://borysgolebiowskipl.wixsite.com/borys/contact',
+            'sec-ch-ua': '"Google Chrome";v="117", "Not;A=Brand";v="8", "Chromium";v="117"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-origin',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36',
+        }
+
+        response = requests.get('https://borysgolebiowskipl.wixsite.com/borys/_api/v2/dynamicmodel', cookies=cookies,
+                                headers=headers)
+        slownik = response.json()
+
+        authorization_list = []
+
+        for i in slownik['apps']:
+            authorization_list.append(slownik['apps'][i]['instance'])
+
+        headers2 = {
             'Referer': 'https://borysgolebiowskipl.wixsite.com/borys/_partials/wix-thunderbolt/dist/clientWorker.b151dd12.bundle.min.js',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36',
-            'Authorization': 'IjLnBgbcij6t1fgckD_Vcs3vEYKl5nvXb5Nfma1ekug.eyJpbnN0YW5jZUlkIjoiMWFlNDQ4ODUtNmQ0Ny00MjFkLWFiZDktNzBlNmExNzdkZGI5IiwiYXBwRGVmSWQiOiIxNGNlMTIxNC1iMjc4LWE3ZTQtMTM3My0wMGNlYmQxYmVmN2MiLCJtZXRhU2l0ZUlkIjoiMDhkZDMyODAtNTRlOS00ZTA5LWFiZTUtZjJiMjgxMzAxNWQ3Iiwic2lnbkRhdGUiOiIyMDIzLTA5LTI3VDE1OjM5OjU3LjIzOFoiLCJkZW1vTW9kZSI6ZmFsc2UsIm9yaWdpbkluc3RhbmNlSWQiOiJjNTFhMmRlNC0xZTBmLTQxYzMtYTQ0ZS0xMDY3N2NhMjE0MjMiLCJhaWQiOiJhYTUxMGM3My0yYTYyLTQ4ZGEtYjQwNy0xMjFkMzMwYTM1MDIiLCJiaVRva2VuIjoiMTIzOTdhMDUtMzlhZS0wYzE0LTAwM2MtODI1NDIwNDdjODZlIiwic2l0ZU93bmVySWQiOiJhYTIwMTdkNS1mMzQyLTQ2OTItOTQ0OC1lYWNlN2I4YTFlYTMifQ',
+            'Authorization': '',
             'X-Wix-Client-Artifact-Id': 'wix-form-builder',
             'Content-Type': 'application/json',
         }
@@ -119,23 +154,20 @@ class PDFFinderFeedback(tkk.Toplevel):
             ],
         }
 
+        headers2['Authorization'] = authorization_list[0]
+
         response = requests.post(
             'https://borysgolebiowskipl.wixsite.com/borys/_api/wix-forms/v1/submit-form',
-            headers=headers,
+            headers=headers2,
             json=json_data,
         )
-
-
-
-
-
-        print('Name: {}'.format(self.entry_name.get()))
-        print('Email: {}'.format(self.entry_email.get()))
-        print('Comments: {}'.format(self.text_comments.get(1.0, 'end')))
-
-
         soup = BeautifulSoup(response.text, features='html.parser')
-        print('soup.text:', soup.text)
+
+        # print('Name: {}'.format(self.entry_name.get()))
+        # print('Email: {}'.format(self.entry_email.get()))
+        # print('Comments: {}'.format(self.text_comments.get(1.0, 'end')))
+
+
         if soup.text[2:14] == 'submissionId':
             self.clear()
             messagebox.showinfo(title="txt_feedback_screen_feedback",
