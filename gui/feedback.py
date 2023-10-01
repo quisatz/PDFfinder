@@ -26,7 +26,7 @@ class PDFFinderFeedback(tkk.Toplevel):
         # self.frame_header.style.configure('TLabel', background='#FFFFFF', font=('Arial', 10))
         self.frame_header.style.configure('Header.TLabel', font=('Arial', 14))
 
-        self.logo = tkk.PhotoImage(file='feedback.png')
+        self.logo = tkk.PhotoImage(file='pict/feedback.png')
         ttk.Label(self.frame_header, image=self.logo).grid(row=0, column=0, rowspan=2)
         # ttk.Label(self.frame_header, text=self.short["txt_feedback_screen__leave_your_opinion"], style='Header.TLabel').grid(
         #     row=0, column=1)

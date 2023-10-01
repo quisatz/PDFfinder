@@ -23,7 +23,7 @@ class PDFFinderInfo(tkk.Toplevel):
 
         ttk.Label(self, text=self.short["txt_PDF_finder_information__PDF_finder_ver_1_0_(x64)"] , font='Helvetica 12 bold').grid(row=0, column=0, padx=10, pady=5, columnspan=3 ,sticky='')
 
-        self.logo = tkk.PhotoImage(file='me.png')
+        self.logo = tkk.PhotoImage(file='pict/me.png')
         ttk.Label(self, image=self.logo).grid(row=3, column=1, rowspan=5 , columnspan=4)
         ttk.Label(self, text=self.short["txt_PDF_finder_information__you_can_find_me_on"]).grid(row=3, column=0, padx=10, pady=0, sticky='sw')
 

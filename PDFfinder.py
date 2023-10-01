@@ -56,7 +56,7 @@ class Gui(tkk.Tk):
         self.deiconify()
 
     def icon_create(self):
-        self.icon = tkk.PhotoImage(file="app_icon.png")
+        self.icon = tkk.PhotoImage(file="pict/app_icon.png")
         self.iconphoto(True, self.icon ,self.icon)
 
     def center_window_position(self):
