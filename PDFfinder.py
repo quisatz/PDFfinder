@@ -34,7 +34,10 @@ class Gui(tkk.Tk):
         self.frame_yellow = ttk.Frame(self)
         self._save_selected__add_file_names()
         self.entry_searchVar.set(self.languages["txt_main_screen__enter_search_term"])
+        self.window_update()
 
+    def window_update(self):
+        """Update window posiotion"""
         self.update_idletasks()
         self.center_window_position()
         self.deiconify()
@@ -95,9 +98,7 @@ class Gui(tkk.Tk):
         self.frame_yellow.forget()
         self.frame_black.forget()
         self.entry_searchVar.set(self.languages["txt_main_screen__enter_search_term"])
-        self.update_idletasks()
-        self.center_window_position()
-        self.deiconify()
+        self.window_update()
 
     def entry_not_empty(self, *args):
         """Checks whether at least three characters are entered in the search window."""
@@ -464,18 +465,14 @@ class Gui(tkk.Tk):
             self.frame_black.pack()
             self.frame_yellow.pack()
             self.frame__save_selected__add_file_names.pack()
-            self.update_idletasks()
-            self.center_window_position()
-            self.deiconify()
+            self.window_update()
 
         else:
             self.frame_black.forget()
             self.frame_yellow.forget()
             self.frame__save_selected__add_file_names.forget()
             self.save_all_purple_Frame.state(['!disabled'])
-            self.update_idletasks()
-            self.center_window_position()
-            self.deiconify()
+            self.window_update()
 
     def refresh_frame_yellow(self, *args):
         """Refreshes the results window."""

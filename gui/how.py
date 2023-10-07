@@ -5,7 +5,6 @@ import sys
 import subprocess
 
 
-
 class PDFFinderHow(tkk.Toplevel):
     def __init__(self, master, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
@@ -35,10 +34,10 @@ class PDFFinderHow(tkk.Toplevel):
         link3 = ttk.Label(self, text=self.short["demonstration_of_the_program_on_youtube"],  font=('Arial',9,'underline') , cursor="hand2")
         link3.grid(row=6, column=0, pady=(10,10), padx=10, sticky='sw')
         link3.bind("<Button-1>", lambda e: open_new("https://www.youtube.com/watch?v=LrCqMymx5WE"))
+        self.window_update()
 
-
-
-
+    def window_update(self):
+        """Update window posiotion"""
         self.update_idletasks()
         self.center_window_position()
         self.deiconify()

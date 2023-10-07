@@ -58,7 +58,10 @@ class PDFFinderInfo(tkk.Toplevel):
         link5 = ttk.Label(self, text=self.short["info"] , font='Helvetica 6' , cursor="hand2")
         link5.grid(row=10,column=0, padx=10, pady=(0 ,10), columnspan=2 ,)
         link5.bind("<Button-1>", lambda e: open_new("https://github.com/Arthan/"))
+        self.window_update()
 
+    def window_update(self):
+        """Update window posiotion"""
         self.update_idletasks()
         self.center_window_position()
         self.deiconify()

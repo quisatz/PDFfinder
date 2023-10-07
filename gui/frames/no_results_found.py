@@ -26,8 +26,10 @@ class FrameNoResultsFound(tkk.Toplevel):
         else:
             ttk.Label(self, text=self.short["txt_no_results_found"], font=('Arial', 12)).pack(pady=10, padx=10)
             self.buttom_ok.pack(pady=10)
+        self.window_update()
 
-
+    def window_update(self):
+        """Update window posiotion"""
         self.update_idletasks()
         self.center_window_position()
         self.deiconify()
@@ -38,4 +40,3 @@ class FrameNoResultsFound(tkk.Toplevel):
         position_right = int(self.winfo_screenwidth() / 2 - window_width / 2)
         position_down = int(self.winfo_screenheight() / 2 - window_height / 2)
         self.geometry("+{}+{}".format(position_right, position_down))
-
