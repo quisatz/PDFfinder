@@ -1,11 +1,10 @@
 # PdfFinder
-#########Looking for a job.###
 
-##Keyword search program for PDF files.
+## Keyword search program for PDF files.
 
 The program displays up to 20 characters/words after the searched keyword. Useful in creating mass statistics.
 
-##Demonstration:
+## Demonstration:
 https://www.youtube.com/watch?v=LrCqMymx5WE
 
 ## How to install this:
@@ -20,3 +19,6 @@ https://www.youtube.com/watch?v=LrCqMymx5WE
 
 ## Find a bug?
 If you found an issue or would like to submit an improvement to this project, please submit an issue using the issues tab above. If you would like to submit a PR with a fix, reference the issue you created!
+
+## Looking for a job.
+https://www.linkedin.com/in/borys-go%C5%82%C4%99biowski-02b883158
